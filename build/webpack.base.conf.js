@@ -4,6 +4,8 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
+const SpritesPlugin = require('webpack-spritesmith');
+
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -35,8 +37,39 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       '@': resolve('src'),
+      'scss': resolve('src/assets/styles'),
+      'js': resolve('src/assets/javascripts'),
+      'iconsScss': resolve('src/assets/styles/iconsScss'),
     }
   },
+  plugins: [
+  // 雪碧图相关
+  new SpritesPlugin({
+    // 目标小图标
+    src: {
+      cwd: path.resolve(__dirname, '../src/assets/images/icons'),
+      glob: '*.png'
+    },
+    // 输出雪碧图文件及样式文件
+    target: {
+      image: path.resolve(__dirname, '../src/assets/images/iconsImg/sprite.png'),
+      css:[[path.resolve(__dirname, '../src/assets/styles/iconsScss/sprite.scss'),{
+        format: 'function_based_template'
+      }]]
+    },
+    customTemplates: {
+      function_based_template: path.resolve(__dirname, '../sprite_handlebars_template.handlebars')
+    },
+    // 样式文件中调用雪碧图地址写法
+    apiOptions: {
+      cssImageRef: "~@/assets/images/iconsImg/sprite.png?v="+Date.parse(new Date())
+    },
+    spritesmithOptions: {
+      algorithm: 'binary-tree',
+      padding: 5
+    }
+  })
+],
   module: {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),

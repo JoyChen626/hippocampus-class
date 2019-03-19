@@ -1,0 +1,193 @@
+//随机数字
+@function parse-random($value) {
+@return round(random() * $value);
+}
+$randomId: parse-random(1000000);
+
+$spriteSrc: "~@/assets/images/iconsImg/sprite.png?v=1552975161000";
+$spriteWidth: (410px);
+$spriteHeight: (342px);
+  $ico_buy1: -328px -150px 45px 45px;
+  $ico_buy2: -100px -297px 45px 45px;
+  $ico_carFalse: -300px -297px 37px 38px;
+  $ico_carTrue: -328px -250px 38px 38px;
+  $ico_checkBox1: -378px -144px 30px 30px;
+  $ico_checkBox2: -378px -74px 30px 30px;
+  $ico_class1: -250px -247px 45px 45px;
+  $ico_class2: -328px 0px 45px 45px;
+  $ico_home1: -328px -50px 45px 45px;
+  $ico_home2: -328px -100px 45px 45px;
+  $ico_kongkong: 0px 0px 323px 242px;
+  $ico_my1: -328px -200px 45px 45px;
+  $ico_my2: 0px -297px 45px 45px;
+  $ico-back: -378px -208px 19px 35px;
+  $ico-class: 0px -247px 45px 45px;
+  $ico-delect: -378px -109px 30px 30px;
+  $ico-gender: -200px -297px 45px 45px;
+  $ico-hidePassword: -378px -248px 26px 12px;
+  $ico-identity: -250px -297px 45px 45px;
+  $ico-NoCheck: -378px -37px 32px 32px;
+  $ico-password: -150px -297px 45px 45px;
+  $ico-phoneNumber: -50px -297px 45px 45px;
+  $ico-region: -200px -247px 45px 45px;
+  $ico-school: -150px -247px 45px 45px;
+  $ico-showPassword: -378px -179px 30px 24px;
+  $ico-userName: -100px -247px 45px 45px;
+  $ico-verificationCode: -50px -247px 45px 45px;
+  $ico-xing: -378px -265px 14px 13px;
+  $ico-YesCheck: -378px 0px 32px 32px;
+
+@function px2rem ($px) {
+$rem: 32px;
+@if (type-of($px) == "number") {
+@return ($px / $rem) +rem;
+}
+
+@if (type-of($px) == "list") {
+@if (nth($px, 1) == 0 and nth($px, 2) != 0) {
+@return 0 nth($px, 2) / 16px * 1rem;
+} @else if (nth($px, 1) == 0 and nth($px, 2) == 0)  {
+@return 0 0;
+} @else if (nth($px, 1) != 0 and nth($px, 2) == 0) {
+@return nth($px, 1) / 16px * 1rem 0;
+} @else {
+@return nth($px, 1) / 16px *1rem nth($px, 2) / 16px * 1rem;
+}
+}
+}
+
+@function strip-units($number){
+@return $number / ($number * 0 + 1);
+}
+
+@function format-zero($number){
+@if $number == 0 {
+@return 1;
+}@else{
+@return $number;
+}
+}
+
+@mixin sprite-width($sprite, $precision) {
+@if $precision {
+width: px2rem(nth($sprite, 3));
+}@else{
+width: px2rem(nth($sprite, 3) + 2px);
+}
+
+}
+
+@mixin sprite-height($sprite, $precision) {
+@if $precision {
+height: px2rem(nth($sprite, 4));
+}@else{
+height: px2rem(nth($sprite, 4) + 2px);
+}
+}
+
+@mixin sprite-position($sprite, $precision) {
+@if $precision {
+background-position: strip-units(nth($sprite, 1)) / strip-units(nth($sprite, 3) - $spriteWidth) * 100%  strip-units(nth($sprite, 2)) / format-zero(strip-units(nth($sprite, 4) - $spriteHeight)) * 100%;
+}@else{
+background-position: strip-units(nth($sprite, 1)) / strip-units(nth($sprite, 3) + 1 - $spriteWidth) * 100%  strip-units(nth($sprite, 2)) / format-zero(strip-units(nth($sprite, 4) + 1 - $spriteHeight)) * 100%;
+}
+}
+
+@mixin sprite($sprite, $precision) {
+@include sprite-position($sprite, $precision);
+@include sprite-width($sprite, $precision);
+@include sprite-height($sprite, $precision);
+background-image: url('#{$spriteSrc}');
+background-repeat: no-repeat;
+background-size: px2rem($spriteWidth) px2rem($spriteHeight);
+display: inline-block;
+}
+
+
+  @mixin mix-ico_buy1() {
+  @include sprite($ico_buy1, $precision: false);
+  }
+  @mixin mix-ico_buy2() {
+  @include sprite($ico_buy2, $precision: false);
+  }
+  @mixin mix-ico_carFalse() {
+  @include sprite($ico_carFalse, $precision: false);
+  }
+  @mixin mix-ico_carTrue() {
+  @include sprite($ico_carTrue, $precision: false);
+  }
+  @mixin mix-ico_checkBox1() {
+  @include sprite($ico_checkBox1, $precision: false);
+  }
+  @mixin mix-ico_checkBox2() {
+  @include sprite($ico_checkBox2, $precision: false);
+  }
+  @mixin mix-ico_class1() {
+  @include sprite($ico_class1, $precision: false);
+  }
+  @mixin mix-ico_class2() {
+  @include sprite($ico_class2, $precision: false);
+  }
+  @mixin mix-ico_home1() {
+  @include sprite($ico_home1, $precision: false);
+  }
+  @mixin mix-ico_home2() {
+  @include sprite($ico_home2, $precision: false);
+  }
+  @mixin mix-ico_kongkong() {
+  @include sprite($ico_kongkong, $precision: false);
+  }
+  @mixin mix-ico_my1() {
+  @include sprite($ico_my1, $precision: false);
+  }
+  @mixin mix-ico_my2() {
+  @include sprite($ico_my2, $precision: false);
+  }
+  @mixin mix-ico-back() {
+  @include sprite($ico-back, $precision: false);
+  }
+  @mixin mix-ico-class() {
+  @include sprite($ico-class, $precision: false);
+  }
+  @mixin mix-ico-delect() {
+  @include sprite($ico-delect, $precision: false);
+  }
+  @mixin mix-ico-gender() {
+  @include sprite($ico-gender, $precision: false);
+  }
+  @mixin mix-ico-hidePassword() {
+  @include sprite($ico-hidePassword, $precision: false);
+  }
+  @mixin mix-ico-identity() {
+  @include sprite($ico-identity, $precision: false);
+  }
+  @mixin mix-ico-NoCheck() {
+  @include sprite($ico-NoCheck, $precision: false);
+  }
+  @mixin mix-ico-password() {
+  @include sprite($ico-password, $precision: false);
+  }
+  @mixin mix-ico-phoneNumber() {
+  @include sprite($ico-phoneNumber, $precision: false);
+  }
+  @mixin mix-ico-region() {
+  @include sprite($ico-region, $precision: false);
+  }
+  @mixin mix-ico-school() {
+  @include sprite($ico-school, $precision: false);
+  }
+  @mixin mix-ico-showPassword() {
+  @include sprite($ico-showPassword, $precision: false);
+  }
+  @mixin mix-ico-userName() {
+  @include sprite($ico-userName, $precision: false);
+  }
+  @mixin mix-ico-verificationCode() {
+  @include sprite($ico-verificationCode, $precision: false);
+  }
+  @mixin mix-ico-xing() {
+  @include sprite($ico-xing, $precision: false);
+  }
+  @mixin mix-ico-YesCheck() {
+  @include sprite($ico-YesCheck, $precision: false);
+  }
