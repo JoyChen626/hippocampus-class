@@ -15,7 +15,7 @@
             <div class="buy-goods-right">
               <p class="buy-goods-right-title">{{item.title}}</p>
               <p class="buy-goods-right-label">{{item.type}}</p>
-              <p class="buy-goods-right-money">￥{{item.money}}</p>
+              <span class="buy-goods-right-money">￥{{item.money}}</span>
             </div>
           </li>
         </ul>
@@ -114,17 +114,18 @@ export default {
               text-overflow:ellipsis;
               white-space:nowrap;
             }
-            .buy-goods-right-lable{
+            .buy-goods-right-label{
               font-size: px2rem(26px);
               font-weight: bolder;
               color: #999999;
               line-height: px2rem(44px);
             }
             .buy-goods-right-money{
+              display: inline-block;
               font-size: px2rem(28px);
               font-weight: bolder;
               color: $color-theme;
-              margin-top: px2rem(36px);
+              margin-top: px2rem(16px);
             }
           }
         }

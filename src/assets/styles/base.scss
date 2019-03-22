@@ -14,6 +14,10 @@ input::-webkit-input-placeholder{color: #999;}
 input::-moz-placeholder{color: #999;}
 input:-ms-input-placeholder{color: #999;}
 
+textarea::-webkit-input-placeholder{color: #999;}
+textarea::-moz-placeholder{color: #999;}
+textarea:-ms-input-placeholder{color: #999;}
+
 /*箭头旋转*/
 .rotate01 {transform-origin: center center;transform: rotate(180deg);transition: transform 0.2s;}
 .rotate02 {transform-origin: center center;transform: rotate(0deg);transition: transform 0.2s;}

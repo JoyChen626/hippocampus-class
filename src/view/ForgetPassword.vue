@@ -65,7 +65,9 @@ export default {
         return false;
       };
       Toast('恭喜您，重置密码成功，请重新登录');
-      this.$router.push({path: '/signIn'})
+      setTimeout(() => {
+        this.$router.push({path: '/signIn'})
+      }, 3000);
     }
   }
 }

@@ -4,38 +4,49 @@
 }
 $randomId: parse-random(1000000);
 
-$spriteSrc: "~@/assets/images/iconsImg/sprite.png?v=1552975161000";
-$spriteWidth: (410px);
-$spriteHeight: (342px);
-  $ico_buy1: -328px -150px 45px 45px;
-  $ico_buy2: -100px -297px 45px 45px;
-  $ico_carFalse: -300px -297px 37px 38px;
-  $ico_carTrue: -328px -250px 38px 38px;
-  $ico_checkBox1: -378px -144px 30px 30px;
-  $ico_checkBox2: -378px -74px 30px 30px;
-  $ico_class1: -250px -247px 45px 45px;
-  $ico_class2: -328px 0px 45px 45px;
-  $ico_home1: -328px -50px 45px 45px;
-  $ico_home2: -328px -100px 45px 45px;
+$spriteSrc: "~@/assets/images/iconsImg/sprite.png?v=1553224427000";
+$spriteWidth: (482px);
+$spriteHeight: (445px);
+  $ico_buy1: -380px -247px 45px 45px;
+  $ico_buy2: 0px -362px 45px 45px;
+  $ico_carFalse: -418px -178px 37px 38px;
+  $ico_carTrue: -418px -135px 38px 38px;
+  $ico_checkBox1: -157px -362px 30px 30px;
+  $ico_checkBox2: -227px -362px 30px 30px;
+  $ico_class1: -180px -247px 45px 45px;
+  $ico_class2: -230px -247px 45px 45px;
+  $ico_home1: -280px -247px 45px 45px;
+  $ico_home2: -330px -247px 45px 45px;
   $ico_kongkong: 0px 0px 323px 242px;
-  $ico_my1: -328px -200px 45px 45px;
-  $ico_my2: 0px -297px 45px 45px;
-  $ico-back: -378px -208px 19px 35px;
-  $ico-class: 0px -247px 45px 45px;
-  $ico-delect: -378px -109px 30px 30px;
-  $ico-gender: -200px -297px 45px 45px;
-  $ico-hidePassword: -378px -248px 26px 12px;
-  $ico-identity: -250px -297px 45px 45px;
-  $ico-NoCheck: -378px -37px 32px 32px;
-  $ico-password: -150px -297px 45px 45px;
-  $ico-phoneNumber: -50px -297px 45px 45px;
-  $ico-region: -200px -247px 45px 45px;
-  $ico-school: -150px -247px 45px 45px;
-  $ico-showPassword: -378px -179px 30px 24px;
-  $ico-userName: -100px -247px 45px 45px;
-  $ico-verificationCode: -50px -247px 45px 45px;
-  $ico-xing: -378px -265px 14px 13px;
-  $ico-YesCheck: -378px 0px 32px 32px;
+  $ico_my1: 0px -312px 45px 45px;
+  $ico_my2: -50px -312px 45px 45px;
+  $ico-back: -463px 0px 19px 35px;
+  $ico-buyCar: -114px -412px 32px 32px;
+  $ico-class: -200px -312px 45px 45px;
+  $ico-collection1: -38px -412px 34px 32px;
+  $ico-comment: -328px 0px 130px 130px;
+  $ico-consultation1: 0px -412px 33px 33px;
+  $ico-coupons-checked: -328px -135px 85px 85px;
+  $ico-delect: -192px -362px 30px 30px;
+  $ico-free: -100px -362px 52px 30px;
+  $ico-gender: -50px -362px 45px 45px;
+  $ico-hidePassword: -328px -225px 26px 12px;
+  $ico-identity: -350px -312px 45px 45px;
+  $ico-NoCheck: -77px -412px 32px 32px;
+  $ico-password: -250px -312px 45px 45px;
+  $ico-phoneNumber: -150px -312px 45px 45px;
+  $ico-play1: -223px -412px 26px 26px;
+  $ico-play2: -430px -247px 26px 26px;
+  $ico-region: -100px -312px 45px 45px;
+  $ico-school: -130px -247px 45px 45px;
+  $ico-share: -188px -412px 30px 32px;
+  $ico-showPassword: -262px -362px 30px 24px;
+  $ico-userName: -400px -312px 45px 45px;
+  $ico-verificationCode: -300px -312px 45px 45px;
+  $ico-weichat: -65px -247px 60px 60px;
+  $ico-xing: -463px -40px 14px 13px;
+  $ico-YesCheck: -151px -412px 32px 32px;
+  $ico-zhifubao: 0px -247px 60px 60px;
 
 @function px2rem ($px) {
 $rem: 32px;
@@ -146,11 +157,29 @@ display: inline-block;
   @mixin mix-ico-back() {
   @include sprite($ico-back, $precision: false);
   }
+  @mixin mix-ico-buyCar() {
+  @include sprite($ico-buyCar, $precision: false);
+  }
   @mixin mix-ico-class() {
   @include sprite($ico-class, $precision: false);
   }
+  @mixin mix-ico-collection1() {
+  @include sprite($ico-collection1, $precision: false);
+  }
+  @mixin mix-ico-comment() {
+  @include sprite($ico-comment, $precision: false);
+  }
+  @mixin mix-ico-consultation1() {
+  @include sprite($ico-consultation1, $precision: false);
+  }
+  @mixin mix-ico-coupons-checked() {
+  @include sprite($ico-coupons-checked, $precision: false);
+  }
   @mixin mix-ico-delect() {
   @include sprite($ico-delect, $precision: false);
+  }
+  @mixin mix-ico-free() {
+  @include sprite($ico-free, $precision: false);
   }
   @mixin mix-ico-gender() {
   @include sprite($ico-gender, $precision: false);
@@ -170,11 +199,20 @@ display: inline-block;
   @mixin mix-ico-phoneNumber() {
   @include sprite($ico-phoneNumber, $precision: false);
   }
+  @mixin mix-ico-play1() {
+  @include sprite($ico-play1, $precision: false);
+  }
+  @mixin mix-ico-play2() {
+  @include sprite($ico-play2, $precision: false);
+  }
   @mixin mix-ico-region() {
   @include sprite($ico-region, $precision: false);
   }
   @mixin mix-ico-school() {
   @include sprite($ico-school, $precision: false);
+  }
+  @mixin mix-ico-share() {
+  @include sprite($ico-share, $precision: false);
   }
   @mixin mix-ico-showPassword() {
   @include sprite($ico-showPassword, $precision: false);
@@ -185,9 +223,15 @@ display: inline-block;
   @mixin mix-ico-verificationCode() {
   @include sprite($ico-verificationCode, $precision: false);
   }
+  @mixin mix-ico-weichat() {
+  @include sprite($ico-weichat, $precision: false);
+  }
   @mixin mix-ico-xing() {
   @include sprite($ico-xing, $precision: false);
   }
   @mixin mix-ico-YesCheck() {
   @include sprite($ico-YesCheck, $precision: false);
+  }
+  @mixin mix-ico-zhifubao() {
+  @include sprite($ico-zhifubao, $precision: false);
   }

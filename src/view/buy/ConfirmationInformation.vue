@@ -4,8 +4,9 @@
     <con-infor-goods :goods="goods"></con-infor-goods>
     <div class="conInfor-coupon-box clearFix">
       <span class="coupon-word flowLeft">优惠卷</span>
-      <span class="coupon-number flowLeft">0张可用</span>
-      <span class="iconfont coupon-forward flowRight">&#xe616;</span>
+      <span class="flowLeft" :class="coupons.length==0?'couponNumber1':'couponNumber2'">{{coupons.length}} 张可用</span>
+      <span class="iconfont coupon-forward flowRight" @click="showCoupons">&#xe616;</span>
+      <span class="flowRight coupon-word" v-if="coupon!=''">{{coupon}}折</span>
     </div>
     <div class="conInfor-coupon-box clearFix">
       <span class="coupon-word flowLeft">商品金额</span>
@@ -14,55 +15,55 @@
     <div class="conInfor-totalMoney-box">
       <span class="totalMoney-word flowLeft">实付金额:</span>
       <span class="totalMoney-money-logo flowLeft">￥</span>
-      <span class="totalMoney-money flowLeft">{{totalMoney}}</span>
-      <span class="totalMoney-placeOrder flowRight">提交订单</span>
+      <span class="totalMoney-money flowLeft">{{actualMoney}}</span>
+      <span class="totalMoney-placeOrder flowRight" @click="toPay">提交订单</span>
     </div>
-    <mt-popup v-model='regionVisible' position='bottom' class="showCoupons-popup">
+    <mt-popup v-model='regionVisible1' position='bottom' class="showCoupons-popup">
       <div class="showCoupons-button-box clearFix">
         <span>选择优惠卷</span>
-        <span class="iconfont ico-close flowRight">X</span>
+        <span class="iconfont ico-close flowRight" @click="closeCoupons">&#xe608;</span>
       </div>
       <div class="coupons-lists">
-        <div class="coupons center">
+        <div class="coupons center" v-for="item in coupons" :key="item.id" @click="choiceCoupons(item.id,item.discount)">
           <div class="coupons-top clearFix">
             <div class="coupons-left flowLeft">
-              <span>8折</span>
+              <p>{{item.discount}}折</p>
             </div>
             <div class="coupons-right flowRight">
-              <p class="top"><span>1234</span>选择优惠卷选择优惠卷</p>
-              <p>选择优惠卷选择优惠卷选择优惠卷</p>
+              <p class="top"><span>优惠卷</span>{{item.couponsTitle}}</p>
+              <p>{{item.condition}}</p>
             </div>
           </div>
           <div class="coupons-bottom">
-            <p>选择优惠卷选择优惠卷</p>
+            <p><span>有效期:</span>{{item.term}}</p>
+          </div>
+          <div class="coupons-checked-flow" v-if="checkedCoupons1==item.id">
+            <span class="coupons-checked"></span>
           </div>
         </div>
-        <div class="coupons center">
-          <div class="coupons-top clearFix">
-            <div class="coupons-left flowLeft">
-              <span>8折</span>
-            </div>
-            <div class="coupons-right flowRight">
-              <p class="top"><span>1234</span>选择优惠卷选择优惠卷</p>
-              <p>选择优惠卷选择优惠卷选择优惠卷</p>
-            </div>
-          </div>
-          <div class="coupons-bottom">
-            <p>选择优惠卷选择优惠卷</p>
+      </div>
+      <div class="coupons-button center">
+        <span @click="submitCoupons">确定</span>
+      </div>
+    </mt-popup>
+    <mt-popup v-model='regionVisible2' position='bottom' class="showPayType-popup">
+      <div class="showCoupons-button-box clearFix">
+        <span>选择支付方式</span>
+        <span class="iconfont ico-close flowRight" @click="closePays">&#xe608;</span>
+      </div>
+      <div class="coupons-lists">
+        <div class="pay-box pay-box1 clearFix">
+          <div class="pay-img pay-zhifubao flowLeft"></div>
+          <div class="pay-words flowLeft"><p>支付宝支付</p></div>
+          <div class="pay-check flowRight">
+            <label class="icocheck" :class="checkedPayType=='zhiFuBao'?'icocheck2':'icocheck1'"><input v-model="checkedPayType" type="radio" value="zhiFuBao" name="payType"></label>
           </div>
         </div>
-        <div class="coupons center">
-          <div class="coupons-top clearFix">
-            <div class="coupons-left flowLeft">
-              <span>8折</span>
-            </div>
-            <div class="coupons-right flowRight">
-              <p class="top"><span>1234</span>选择优惠卷选择优惠卷</p>
-              <p>选择优惠卷选择优惠卷选择优惠卷</p>
-            </div>
-          </div>
-          <div class="coupons-bottom">
-            <p>选择优惠卷选择优惠卷</p>
+        <div class="pay-box pay-box2 clearFix">
+          <div class="pay-img pay-weichat flowLeft"></div>
+          <div class="pay-words"><p>微信支付</p></div>
+          <div class="pay-check flowRight">
+            <label class="icocheck icocheck1"  :class="checkedPayType=='weiChat'?'icocheck2':'icocheck1'"><input v-model="checkedPayType" type="radio" value="weiChat" name="payType"></label>
           </div>
         </div>
       </div>
@@ -91,10 +92,56 @@ export default {
           'type': '视频',
           'money': '240.5',
           'id': '1'
+        },
+        {
+          'img': '',
+          'title': '红红火火恍恍惚惚红红火火恍恍惚惚',
+          'type': '视频',
+          'money': '299',
+          'id': '2'
         }
       ],
-      totalMoney: 299,
-      regionVisible: true
+      totalMoney: 539.5,
+      actualMoney: 539.5,
+      regionVisible1: false,
+      regionVisible2: false,
+      coupons: [
+        {'id': '001', 'discount': '6', 'couponsTitle': '高中物理优惠卷', 'condition': '仅限购买高中物理课程可享8折', 'term': '2019.03.15至2019.04.01'},
+        {'id': '002', 'discount': '7', 'couponsTitle': '海马课堂优惠卷', 'condition': '购买平台内课堂均可享受7折优惠', 'term': '2019.03.12至2019.03.25'},
+        {'id': '003', 'discount': '7.5', 'couponsTitle': '高中化学优惠卷', 'condition': '仅限购买高中化学课程可享7.5折', 'term': '2019.03.01至2019.04.01'},
+        {'id': '004', 'discount': '8.5', 'couponsTitle': '初中物理优惠卷', 'condition': '仅限购买初中物理课程可享8.5折', 'term': '2019.03.19至2019.04.19'}
+      ],
+      checkedCoupons1: '',
+      checkedCoupons: '',
+      coupon1: '',
+      coupon: '',
+      checkedPayType: ''
+    }
+  },
+  methods: {
+    showCoupons() {
+      this.regionVisible1 = true;
+      this.checkedCoupons1 = this.checkedCoupons;
+    },
+    closeCoupons() {
+      this.regionVisible1 = false;
+    },
+    closePays() {
+      this.regionVisible2 = false;
+    },
+    choiceCoupons(id, res) {
+      this.checkedCoupons1 = id;
+      this.coupon1 = res;
+    },
+    submitCoupons() {
+      this.checkedCoupons = this.checkedCoupons1;
+      this.regionVisible1 = false;
+      this.coupon = this.coupon1;
+      this.actualMoney = String(this.totalMoney * (Number(this.coupon) / 10));
+      this.actualMoney = this.actualMoney.substr(0, this.actualMoney.indexOf('.') + 3);
+    },
+    toPay() {
+      this.regionVisible2 = true;
     }
   }
 }
@@ -119,13 +166,25 @@ export default {
         margin-right: px2rem(10px);
         font-size: px2rem(28px);
       }
-      .coupon-number{
+      .couponNumber1{
         background-color: #b6b6b6;
         font-size: px2rem(22px);
         text-align: center;
         border-radius: px2rem(8px);
         width: px2rem(130px);
         color: white;
+      }
+      .couponNumber2{
+        background-color: $color-theme;
+        font-size: px2rem(22px);
+        text-align: center;
+        border-radius: px2rem(8px);
+        width: px2rem(130px);
+        color: white;
+      }
+      .coupon-word{
+        color: #999999;
+        margin-right: px2rem(6px);
       }
       .coupon-forward{
         color: #999999;
@@ -167,7 +226,7 @@ export default {
         width: px2rem(259px);
       }
     }
-    .showCoupons-popup{
+    .showCoupons-popup,.showPayType-popup{
       width: 100%;
       background-color: white;
       border-bottom: 1px solid #f3f3f3;
@@ -183,22 +242,22 @@ export default {
         max-height: px2rem(800px);
         overflow: scroll;
         .coupons{
-          background-color: $color-theme;
+          background: url("../../assets/images/coupons-bg.png")no-repeat center center;
+          background-size: 100% 100%;
           border-radius: px2rem(8px);
           margin-bottom: px2rem(10px);
+          position: relative;
           .coupons-top{
-            border-bottom: 1px dashed #ffffff;
             display: flex;
             .coupons-left{
-              border-right: 1px dashed #ffffff;
               text-align: center;
-              span{
+              p{
                 display: inline-block;
-                line-height: px2rem(170px);
+                line-height: px2rem(165px);
                 font-size: px2rem(64px);
                 font-weight: bolder;
                 color: white;
-                width: px2rem(170px);
+                width: px2rem(194px);
               }
             }
             .coupons-right{
@@ -215,7 +274,7 @@ export default {
                   display: inline-block;
                   font-size: px2rem(22px);
                   color: $color-theme;
-                  width: px2rem(80px);
+                  width: px2rem(100px);
                   height: px2rem(45px);
                   background-color: white;
                   text-align: center;
@@ -231,7 +290,61 @@ export default {
             color: white;
             font-size: px2rem(24px);
             padding-left: px2rem(30px);
+            span{
+              margin-right: px2rem(8px);
+            }
           }
+          .coupons-checked-flow{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: px2rem(85px);
+            height: px2rem(85px);
+            border-radius: px2rem(8px);
+            overflow: hidden;
+            span{
+              @include mix-ico-coupons-checked;
+            }
+          }
+        }
+        .pay-box{
+          display: flex;
+          border-bottom: 2px solid #f3f3f3;
+          .pay-img{
+            margin: px2rem(25px) px2rem(26px) px2rem(25px) px2rem(30px);
+          }
+          .pay-zhifubao{
+            @include mix-ico-zhifubao;
+          }
+          .pay-weichat{
+            @include mix-ico-weichat;
+          }
+          .pay-words{
+            flex: 1;
+            p{
+              line-height: px2rem(110px);
+              font-size: px2rem(28px);
+              color: #666666;
+            }
+          }
+          .pay-check{
+            width: px2rem(38px);
+            height: px2rem(38px);
+            margin: px2rem(17px) px2rem(30px) px2rem(17px) 0;
+            input{
+              opacity: 0;
+              width: 100%;
+            }
+            .icocheck1{
+              @include mix-ico-carFalse;
+            }
+            .icocheck2{
+              @include mix-ico-carTrue;
+            }
+          }
+        }
+        .pay-box2{
+          margin-bottom: px2rem(60px);
         }
       }
     }

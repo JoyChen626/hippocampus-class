@@ -3,109 +3,31 @@
     <class-header></class-header>
     <div class="ClassList-nav">
       <ul class="ClassList-nav-ul clearFix">
-        <li class="ClassList-nav-li" @click="ClassListNavClick(0)">
+        <li class="ClassList-nav-li" @click="ClassListNavClick(item.id)" v-for="(item) in classNav" :key="item.id">
           <transition name="fade">
-            <span class="iconfont" v-show="currentCount==0">&#xe63e;</span>
+            <span class="iconfont" v-show="currentCount==item.id">&#xe63e;</span>
           </transition>
-          <span :class="{spanActive:currentCount==0}">小学物理</span>
-        </li>
-        <li class="ClassList-nav-li" @click="ClassListNavClick(1)">
-          <transition name="fade">
-            <span class="iconfont" v-show="currentCount==1">&#xe63e;</span>
-          </transition>
-          <span :class="{spanActive:currentCount==1}">初中物理</span>
-        </li>
-        <li class="ClassList-nav-li" @click="ClassListNavClick(2)">
-          <transition name="fade">
-            <span class="iconfont" v-show="currentCount==2">&#xe63e;</span>
-          </transition>
-          <span :class="{spanActive:currentCount==2}">初中化学</span>
-        </li>
-        <li class="ClassList-nav-li" @click="ClassListNavClick(3)">
-          <transition name="fade">
-            <span class="iconfont" v-show="currentCount==3">&#xe63e;</span>
-          </transition>
-          <span :class="{spanActive:currentCount==3}">高中物理</span>
+          <span :class="{spanActive:currentCount==item.id}">{{item.navTitle}}</span>
         </li>
       </ul>
     </div>
     <div class="ClassList-lists">
       <ul class="ClassList-lists-ul">
-        <li class="ClassList-lists-li clearFix">
+        <router-link tag="li" class="ClassList-lists-li clearFix" v-for="item in classList" :key="item.id" to="/classDetails">
           <div class="lists-li-left flowLeft">
-            <img src="../assets/images/boutique_class001.png" class="lists-li-img" alt="">
+            <img :src="item.imgSrl" class="lists-li-img" alt="">
           </div>
           <div class="lists-li-right flowRight">
-            <p class="lists-li-title"><span>小学物理</span>酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷</p>
+            <p class="lists-li-title"><span>{{item.word}}</span>{{item.words}}</p>
             <div class="lists-li-other clearFix">
-              <span class="lists-li-other-money flowLeft">￥25</span>
+              <span class="lists-li-other-money flowLeft">￥{{item.money}}</span>
               <div class="lists-li-other-eye flowRight">
                 <span class="iconfont">&#xe6e0;</span>
-                <span>4567人</span>
+                <span>{{item.eye}}人</span>
               </div>
             </div>
           </div>
-        </li>
-        <li class="ClassList-lists-li clearFix">
-          <div class="lists-li-left flowLeft">
-            <img src="../assets/images/boutique_class001.png" class="lists-li-img" alt="">
-          </div>
-          <div class="lists-li-right flowRight">
-            <p class="lists-li-title"><span>小学物理</span>酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷</p>
-            <div class="lists-li-other clearFix">
-              <span class="lists-li-other-money flowLeft">￥25</span>
-              <div class="lists-li-other-eye flowRight">
-                <span class="iconfont">&#xe6e0;</span>
-                <span>4567人</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="ClassList-lists-li clearFix">
-          <div class="lists-li-left flowLeft">
-            <img src="../assets/images/boutique_class001.png" class="lists-li-img" alt="">
-          </div>
-          <div class="lists-li-right flowRight">
-            <p class="lists-li-title"><span>小学物理</span>酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷</p>
-            <div class="lists-li-other clearFix">
-              <span class="lists-li-other-money flowLeft">￥25</span>
-              <div class="lists-li-other-eye flowRight">
-                <span class="iconfont">&#xe6e0;</span>
-                <span>4567人</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="ClassList-lists-li clearFix">
-          <div class="lists-li-left flowLeft">
-            <img src="../assets/images/boutique_class001.png" class="lists-li-img" alt="">
-          </div>
-          <div class="lists-li-right flowRight">
-            <p class="lists-li-title"><span>小学物理</span>酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷</p>
-            <div class="lists-li-other clearFix">
-              <span class="lists-li-other-money flowLeft">￥25</span>
-              <div class="lists-li-other-eye flowRight">
-                <span class="iconfont">&#xe6e0;</span>
-                <span>4567人</span>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="ClassList-lists-li clearFix">
-          <div class="lists-li-left flowLeft">
-            <img src="../assets/images/boutique_class001.png" class="lists-li-img" alt="">
-          </div>
-          <div class="lists-li-right flowRight">
-            <p class="lists-li-title"><span>小学物理</span>酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷酷</p>
-            <div class="lists-li-other clearFix">
-              <span class="lists-li-other-money flowLeft">￥25</span>
-              <div class="lists-li-other-eye flowRight">
-                <span class="iconfont">&#xe6e0;</span>
-                <span>4567人</span>
-              </div>
-            </div>
-          </div>
-        </li>
+        </router-link>
       </ul>
     </div>
     <class-nav></class-nav>
@@ -123,13 +45,30 @@ export default {
   },
   data() {
     return {
-      currentCount: 0
+      currentCount: 1,
+      classNav: [],
+      classList: []
     }
   },
   methods: {
     ClassListNavClick(res) {
       this.currentCount = res;
+    },
+    getClassInfo() {
+      this.axios.get('../../static/mock/class.json')
+        .then(this.initClassPage)
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    initClassPage(res) {
+      let data = res.data;
+      this.classNav = data.classNav;
+      this.classList = data.classList;
     }
+  },
+  mounted() {
+    this.getClassInfo();
   }
 }
 </script>

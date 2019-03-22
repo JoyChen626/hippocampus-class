@@ -25,6 +25,20 @@ $font-size-medium : px2rem(32px);
 $font-size-medium-x : px2rem(36px);
 $font-size-large : px2rem(40px);
 $font-size-large-x : px2rem(44px);
+p,h1,h2,h3,h4,h5,h6{
+    letter-spacing:px2rem(3px);
+}
 
 //居中
 .center {width: px2rem(690px);margin: 0 auto;}
+
+.icoUp{
+    transform-origin: center center;
+    transform: rotate(0deg);
+    transition: transform 0.2s;
+}
+.icoDowm{
+    transform-origin: center center;
+    transform: rotate(180deg);
+    transition: transform 0.2s;
+}

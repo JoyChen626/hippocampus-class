@@ -84,7 +84,9 @@ export default {
         return false;
       };
       Toast('恭喜您，注册成功');
-      this.$router.push({path: '/essentialInformationInput'})
+      setTimeout(() => {
+        this.$router.push({path: '/essentialInformationInput'})
+      }, 3000);
     }
   }
 }

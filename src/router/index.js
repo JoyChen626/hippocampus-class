@@ -7,6 +7,8 @@ import ForgetPassword from '../view/ForgetPassword'
 import EssentialInformationInput from '../view/EssentialInformation'
 import Home from '../view/Home'
 import ClassList from '../view/ClassList'
+import ClassDetails from '../view/class/ClassDetails'
+import ClassWriteComment from '../view/class/ClassWriteComment'
 import Buy from '../view/Buy'
 import ConfirmationInformation from '../view/buy/ConfirmationInformation'
 
@@ -60,6 +62,22 @@ let routes = [
     component: ClassList,
     meta: {
       title: '课程'
+    }
+  },
+  {
+    path: '/classDetails',
+    name: 'classDetails',
+    component: ClassDetails,
+    meta: {
+      title: '课程详情'
+    }
+  },
+  {
+    path: '/classWriteComment',
+    name: 'classWriteComment',
+    component: ClassWriteComment,
+    meta: {
+      title: '写评论'
     }
   },
   {

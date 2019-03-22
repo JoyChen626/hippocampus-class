@@ -1,0 +1,14 @@
+{
+ "classNav": [
+   {"id": 1, "navTitle": "初中物理"},
+   {"id": 2, "navTitle": "初中化学"},
+   {"id": 3, "navTitle": "高中物理"},
+   {"id": 4, "navTitle": "高中化学"}
+ ],
+  "classList": [
+    {"id":"001", "imgSrl": "../../static/imgs/boutique_class001.png", "word": "初中物理", "words": "初中物理在线学习从力学到电学呀呀呀呀呀初中物理在线学习从力学到电学呀呀呀呀呀", "money": "299", "eye": "5321"},
+    {"id":"002", "imgSrl": "../../static/imgs/boutique_class002.png", "word": "初中化学", "words": "初中物理在线学习从力学到电学呀呀呀呀呀初中物理在线学习从力学到电学呀呀呀呀呀", "money": "108.7", "eye": "123"},
+    {"id":"003", "imgSrl": "../../static/imgs/boutique_class003.png", "word": "高中物理", "words": "初中物理在线学习从力学到电学呀呀呀呀呀初中物理在线学习从力学到电学呀呀呀呀呀", "money": "199", "eye": "400"},
+    {"id":"004", "imgSrl": "../../static/imgs/boutique_class004.png", "word": "高中化学", "words": "初中物理在线学习从力学到电学呀呀呀呀呀初中物理在线学习从力学到电学呀呀呀呀呀", "money": "98", "eye": "24342"}
+  ]
+}

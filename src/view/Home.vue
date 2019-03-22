@@ -6,140 +6,40 @@
        <div class="video-img-box">
          <span class="icoControl ico-to-play iconfont" @click="toPlayVideo">&#xe642;</span>
          <!--<span class="icoControl ico-to-suspend iconfont" v-if="play">&#xe630;</span>-->
-         <img class="video-img" src="" alt="">
+         <img class="video-img" :src="videoInfo.coverMap" alt="">
        </div>
      </div>
      <video class="Home-video" src="" controls="controls"></video>
    </div>
    <div class="home-articles">
-     <div class="Home-articles-box">
-       <div class="Home-article2">
-         <div class="article2-img-box">
-           <img src="../assets/images/ti_img002.jpg" alt="" class="article2-img">
-         </div>
-         <div class="article2-words-box center clearFix">
-           <div class="flowLeft">
-             <h3 class="flowLeft">精品课堂</h3>
-             <p class="flowRight">初中物理在线学习从力学到电学</p>
-           </div>
-           <div class="flowRight">
-             <span class="iconfont">&#xe6e0;</span>
-             <span>786543人</span>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="Home-articles-box">
-       <div class="Home-article2">
-         <div class="article2-img-box">
-           <img src="../assets/images/ti_img002.jpg" alt="" class="article2-img">
-         </div>
-         <div class="article2-words-box center clearFix">
-           <div class="flowLeft">
-             <h3 class="flowLeft">精品课堂</h3>
-             <p class="flowRight">初中物理在线学习从力学到电学</p>
-           </div>
-           <div class="flowRight">
-             <span class="iconfont">&#xe6e0;</span>
-             <span>786543人</span>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="Home-articles-box">
-       <div class="Home-article1 clearFix center">
+     <div class="Home-articles-box" v-for="(item,index) in articleLists" :key="index">
+       <div class="Home-article1 clearFix center" v-if="item.article1">
          <div class="article1-img-box flowLeft">
-           <img src="../assets/images/ti_img001.jpg" alt="" class="article1-img">
+           <img :src="item.article1.article1Src" alt="" class="article1-img">
          </div>
          <div class="article1-words-box flowRight">
-           <p>初中物理在线学习从力学到电学初中物理在线学习从力学到电学初中物理在线学习从力学到电学</p>
+           <p>{{item.article1.article1Word}}</p>
            <div class="otherWords clearFix">
-             <span class="timer flowLeft">2019/03/15</span>
+             <span class="timer flowLeft">{{item.article1.article1Time}}</span>
              <div class="flowRight">
                <span class="iconfont icon-eye">&#xe6e0;</span>
-               <span>786543人</span>
+               <span>{{item.article1.article1Eye}}人</span>
              </div>
            </div>
          </div>
        </div>
        <div class="Home-article2">
          <div class="article2-img-box">
-           <img src="../assets/images/ti_img002.jpg" alt="" class="article2-img">
+           <img :src="item.article2.article2Src" alt="" class="article2-img">
          </div>
          <div class="article2-words-box center clearFix">
            <div class="flowLeft">
-             <h3 class="flowLeft">精品课堂</h3>
-             <p class="flowRight">初中物理在线学习从力学到电学</p>
+             <h3 class="flowLeft">{{item.article2.article2Title}}</h3>
+             <p class="flowRight">{{item.article2.article2Word}}</p>
            </div>
            <div class="flowRight">
              <span class="iconfont">&#xe6e0;</span>
-             <span>786543人</span>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="Home-articles-box">
-       <div class="Home-article2">
-         <div class="article2-img-box">
-           <img src="../assets/images/ti_img002.jpg" alt="" class="article2-img">
-         </div>
-         <div class="article2-words-box center clearFix">
-           <div class="flowLeft">
-             <h3 class="flowLeft">精品课堂</h3>
-             <p class="flowRight">初中物理在线学习从力学到电学</p>
-           </div>
-           <div class="flowRight">
-             <span class="iconfont">&#xe6e0;</span>
-             <span>786543人</span>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="Home-articles-box">
-       <div class="Home-article1 clearFix center">
-         <div class="article1-img-box flowLeft">
-           <img src="../assets/images/ti_img001.jpg" alt="" class="article1-img">
-         </div>
-         <div class="article1-words-box flowRight">
-           <p>初中物理在线学习从力学到电学初中物理在线学习从力学到电学初中物理在线学习从力学到电学</p>
-           <div class="otherWords clearFix">
-             <span class="timer flowLeft">2019/03/15</span>
-             <div class="flowRight">
-               <span class="iconfont icon-eye">&#xe6e0;</span>
-               <span>786543人</span>
-             </div>
-           </div>
-         </div>
-       </div>
-       <div class="Home-article2">
-         <div class="article2-img-box">
-           <img src="../assets/images/ti_img002.jpg" alt="" class="article2-img">
-         </div>
-         <div class="article2-words-box center clearFix">
-           <div class="flowLeft">
-             <h3 class="flowLeft">精品课堂</h3>
-             <p class="flowRight">初中物理在线学习从力学到电学</p>
-           </div>
-           <div class="flowRight">
-             <span class="iconfont">&#xe6e0;</span>
-             <span>786543人</span>
-           </div>
-         </div>
-       </div>
-     </div>
-     <div class="Home-articles-box">
-       <div class="Home-article2">
-         <div class="article2-img-box">
-           <img src="../assets/images/ti_img002.jpg" alt="" class="article2-img">
-         </div>
-         <div class="article2-words-box center clearFix">
-           <div class="flowLeft">
-             <h3 class="flowLeft">精品课堂</h3>
-             <p class="flowRight">初中物理在线学习从力学到电学</p>
-           </div>
-           <div class="flowRight">
-             <span class="iconfont"></span>
-             <span>786543人</span>
+             <span>{{item.article2.article2Eye}}人</span>
            </div>
          </div>
        </div>
@@ -160,13 +60,30 @@ export default {
   },
   data() {
     return {
-      play: false
+      play: false,
+      videoInfo: {},
+      articleLists: {}
     }
   },
   methods: {
     toPlayVideo() {
       this.play = true;
+    },
+    getHomeInfo() {
+      this.axios.get('../../static/mock/home.json')
+        .then(this.initHomePage)
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    initHomePage(res) {
+      let data = res.data;
+      this.videoInfo = data.videoInfo;
+      this.articleLists = data.articleLists;
     }
+  },
+  mounted() {
+    this.getHomeInfo();
   }
 }
 </script>
@@ -189,7 +106,6 @@ export default {
         width: 100%;
         height: 0;
         padding-bottom: 56.27%;
-        background-color: lightsalmon;
       }
       .video-img{
         width: 100%;

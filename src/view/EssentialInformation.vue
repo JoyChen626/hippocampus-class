@@ -73,7 +73,9 @@ export default {
         return false;
       }
       Toast('您的信息已提交成功');
-      this.$router.push({path: '/home'})
+      setTimeout(() => {
+        this.$router.push({path: '/home'})
+      }, 3000);
     }
   }
 }
