@@ -14,7 +14,7 @@
               <span class="flowLeft serial-number">{{listItem.id}}</span>
               <p class="words flowLeft">{{listItem.title}}</p>
               <span class="word flowLeft" v-show="item.isFree">free</span>
-              <span class="btn flowRight">学习</span>
+              <router-link tag="span" class="btn flowRight" to="/classTests">学习</router-link>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@
   <div class="ClassHeader">
     <div class="ClassList-header-box">
       <div class="ClassList-header center">
-        <div class="search-box">
+        <div class="search-box" @click="toSearch">
           <span class="search iconfont">&#xe684;</span>
           <p>搜索</p>
         </div>
@@ -13,12 +13,30 @@
         </div>
       </div>
     </div>
+    <class-search @back="closeSearch" v-if="isSearch"></class-search>
   </div>
 </template>
 
 <script>
+import ClassSearch from '../class/ClassSearch'
 export default {
-  name: 'ClassHeader'
+  name: 'ClassHeader',
+  components: {
+    ClassSearch
+  },
+  data() {
+    return {
+      isSearch: false
+    }
+  },
+  methods: {
+    toSearch() {
+      this.isSearch = true;
+    },
+    closeSearch() {
+      this.isSearch = false;
+    }
+  }
 }
 </script>
 

@@ -62,15 +62,15 @@
       <i v-if="showInput===5"></i><span class="ico-gender"></span>
       <p class="input-single-election">
         <label class="single-election-word"><span>男</span><span class="icoCheck" :class="someInputVal.checkGender==='man'?'icoYesCheck':'icoNoCheck'"></span><input class="displayNone" type="radio" v-model="someInputVal.checkGender" value="man"/></label>
-        <label class="single-election-word"><span>女</span><span class="icoCheck icoNoCheck" :class="someInputVal.checkGender==='woman'?'icoYesCheck':'icoNoCheck'"></span><input class="displayNone" type="radio" v-model="someInputVal.checkGender" value="woman"/></label>
+        <label class="single-election-word"><span>女</span><span class="icoCheck" :class="someInputVal.checkGender==='woman'?'icoYesCheck':'icoNoCheck'"></span><input class="displayNone" type="radio" v-model="someInputVal.checkGender" value="woman"/></label>
       </p>
     </div>
     <div class="input-box" v-if="showInput===5">
       <i v-if="showInput===5"></i><span class="ico-identity"></span>
       <p class="input-single-election">
         <label class="single-election-word"><span>学生</span><span class="icoCheck" :class="someInputVal.checkIdentity==='student'?'icoYesCheck':'icoNoCheck'"></span><input class="displayNone" type="radio" v-model="someInputVal.checkIdentity" value="student"/></label>
-        <label class="single-election-word"><span>教师</span><span class="icoCheck icoNoCheck" :class="someInputVal.checkIdentity==='teacher'?'icoYesCheck':'icoNoCheck'"></span><input class="displayNone" type="radio" v-model="someInputVal.checkIdentity" value="teacher"/></label>
-        <label class="single-election-word"><span>家长</span><span class="icoCheck icoNoCheck" :class="someInputVal.checkIdentity==='parents'?'icoYesCheck':'icoNoCheck'"></span><input class="displayNone" type="radio" v-model="someInputVal.checkIdentity" value="parents"/></label>
+        <label class="single-election-word"><span>教师</span><span class="icoCheck" :class="someInputVal.checkIdentity==='teacher'?'icoYesCheck':'icoNoCheck'"></span><input class="displayNone" type="radio" v-model="someInputVal.checkIdentity" value="teacher"/></label>
+        <label class="single-election-word"><span>家长</span><span class="icoCheck" :class="someInputVal.checkIdentity==='parents'?'icoYesCheck':'icoNoCheck'"></span><input class="displayNone" type="radio" v-model="someInputVal.checkIdentity" value="parents"/></label>
       </p>
     </div>
     <div class="input-box" v-if="showInput===5">
@@ -242,16 +242,22 @@ export default {
       line-height: px2rem(60px);
       .single-election-word{
         display: inline-block;
-        width: px2rem(106px);
+        width: px2rem(120px);
         color: $color-text-x;
         font-size: $font-size-small;
         margin-right: px2rem(50px);
+        font-size: 0;
+        span{
+          font-size: px2rem(28px);
+          display: inline-block;
+          vertical-align: middle;
+        }
       }
-      span{
-        display: inline-block;
-        vertical-align: middle;
+      .single-election-word:last-child{
+        margin-right: px2rem(0px);
       }
       .icoCheck{
+        vertical-align: middle;
         margin-left: px2rem(16px);
       }
       .icoNoCheck{

@@ -6,6 +6,7 @@ import VueAxios from 'vue-axios'
 import 'scss/index.scss'
 import 'scss/iconfont/iconfont.css'
 import 'js/index.js'
+import store from './store/store'
 import 'mint-ui/lib/style.css'
 import MintUI from 'mint-ui'
 Vue.use(MintUI)
@@ -16,5 +17,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })

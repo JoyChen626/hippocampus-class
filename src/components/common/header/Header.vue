@@ -5,7 +5,7 @@
       <span class="Header-title">{{this.$route.meta.title}}</span>
       <div class="Header-details-box" v-if="this.$route.path=='/classDetails'">
         <span class="ico-buyCar"></span>
-        <span class="ico-share"></span>
+        <router-link tag="span" class="ico-share" to="/sharePage"></router-link>
       </div>
     </div>
   </div>

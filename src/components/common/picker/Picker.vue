@@ -1,11 +1,11 @@
 <template>
   <div class='three-level-address' id='three_level_address'>
-    <mt-popup v-model='regionVisible' v-if="regionVisible" id="three_level_address" position='bottom' class='region-popup'>
+    <mt-popup v-model='regionVisible' id='three_level_address' v-if="regionVisible" position='bottom' class='region-popup'>
       <div class="clR pop-btn clearFix">
         <p @click="cancle" class="btn flowLeft btn-cancle">取消</p>
         <p @click="sureMap" class="btn flowRight btn-sure">确定</p>
       </div>
-      <mt-picker :slots='myAddressSlots' valueKey='name' @change='addressChange'></mt-picker>
+      <mt-picker :slots='myAddressSlots' valueKey='name' :visibleItemCount="7" @change='addressChange'></mt-picker>
     </mt-popup>
   </div>
 </template>
@@ -54,7 +54,7 @@ export default {
         // 县
         {
           flex: 1,
-          values: this.getCountyArr('北京市', '北京市'),
+          values: this.getCountyArr('北京市', '市辖区'),
           className: 'slot5',
           textAlign: 'center'
         }
@@ -142,6 +142,9 @@ export default {
     }
     Bus.$on('showAdressPicker', (ref) => {
       this.regionVisible = ref;
+    });
+    Bus.$on('showPicker', (ref) => {
+      this.regionVisible = ref;
     })
   }
 }
@@ -152,6 +155,9 @@ export default {
     width: 100%;
     text-align: left;
     color: #ffffff;
+  }
+  .three-level-address /deep/ .picker-item{
+    font-size: px2rem(32px);
   }
   .pop-btn{
     border: 1px solid $color-border;

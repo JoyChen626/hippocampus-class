@@ -2,8 +2,7 @@
   <div class="Buy">
     <buy-header :showEdit="goods.length" @delectGoods="toShowDelect"></buy-header>
     <div class="buy-nothing-box" v-if="goods.length==0">
-      <div class="nothing-img-box"></div>
-      <p class="nothing-word">你的购物车空空如也</p>
+      <buy-none></buy-none>
       <p class="to-buy-button">买买买</p>
     </div>
 
@@ -29,12 +28,14 @@
 
 <script>
 import BuyHeader from '../components/buy/BuyHeader'
+import BuyNone from '../components/common/none/None'
 import BuyGoods from '../components/buy/GoodsLists'
 import BuyNav from '../components/common/nav/Nav'
 export default {
   name: 'Buy',
   components: {
     BuyHeader,
+    BuyNone,
     BuyGoods,
     BuyNav
   },
@@ -130,17 +131,7 @@ export default {
       @include mix-ico-carTrue;
     }
     .buy-nothing-box{
-      margin-top: px2rem(90px);
       text-align: center;
-      .nothing-img-box{
-        @include mix-ico-kongkong;
-        margin-bottom: px2rem(50px);
-      }
-      .nothing-word{
-        font-size: px2rem(28px);
-        line-height: px2rem(28px);
-        color: #666666;
-      }
       .to-buy-button{
         width: px2rem(216px);
         height: px2rem(75px);

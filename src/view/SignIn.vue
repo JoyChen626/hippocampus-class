@@ -86,6 +86,8 @@ export default {
       if (!this.valueOk) {
         return false;
       }
+      let data = {'userName': this.someValue.userNameText, 'password': this.someValue.userPasswordText1}
+      this.$store.commit('saveSuginInInfor', data)
       this.$router.push({path: '/home'})
     }
   }

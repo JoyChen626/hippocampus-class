@@ -20,11 +20,11 @@
         </div>
         <p class="Nav-word" :class="{active:this.$route.path==='/buy'}">购物车</p>
       </router-link>
-      <router-link tag="li" to="/home" class="Nav-li">
+      <router-link tag="li" to="/my" class="Nav-li">
         <div class="Nav-img-box">
-          <span class="icon iconMy1"></span>
+          <span class="icon iconMy1" :class="this.$route.path==='/my'?'iconMy2':'iconMy1'"></span>
         </div>
-        <p class="Nav-word">我的</p>
+        <p class="Nav-word" :class="{active:this.$route.path==='/my'}">我的</p>
       </router-link>
     </ul>
   </div>

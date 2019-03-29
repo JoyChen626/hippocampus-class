@@ -3,10 +3,10 @@
     <div class="buy-goods-box" v-if="goods.length">
       <div class="buy-goods">
         <ul class="buy-goods-ul">
-          <li class="buy-goods-li clearFix" v-for="(item) in goods" :key="item.id">
+          <li class="buy-goods-li clearFix" v-for="item in goods" :key="item.id">
             <div class="buy-goods-left flowLeft" v-if="$route.path==='/buy'">
               <label @click="choiceGoods(item.id,item.money)" class="icocheck" :class="goodsIds.length && goodsIds.indexOf(item.id) > -1?'icocheck2':'icocheck1'">
-                <input type="input-checkbox" value="">
+                <input type="checkbox" value="">
               </label>
             </div>
             <div class="buy-goods-img-box flowLeft">
@@ -27,7 +27,19 @@
 <script>
 export default {
   name: 'GoodsLists',
-  props: ['goods', 'goodsIds', 'totalMoney'],
+  props: {
+    goods: {
+      type: Array,
+      default: () => {}
+    },
+    goodsIds: {
+      type: Array,
+      default: () => {}
+    },
+    totalMoney: {
+      type: Number
+    }
+  },
   data() {
     return {
       changeTotalMoney: 0

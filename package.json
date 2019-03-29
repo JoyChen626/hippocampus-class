@@ -12,12 +12,15 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "echarts": "^4.2.1",
     "mint-ui": "^2.2.13",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.1",
+    "vuex": "^3.1.0",
+    "vux": "^2.9.2",
     "webpack-spritesmith": "^1.0.0"
   },
   "devDependencies": {

@@ -1,17 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import SignIn from '../view/SignIn'
-import Registration from '../view/Registration'
-import ForgetPassword from '../view/ForgetPassword'
-import EssentialInformationInput from '../view/EssentialInformation'
-import Home from '../view/Home'
-import ClassList from '../view/ClassList'
-import ClassDetails from '../view/class/ClassDetails'
-import ClassWriteComment from '../view/class/ClassWriteComment'
-import Buy from '../view/Buy'
-import ConfirmationInformation from '../view/buy/ConfirmationInformation'
-
 Vue.use(Router)
 
 let routes = [
@@ -22,12 +11,12 @@ let routes = [
   {
     path: '/signIn',
     name: 'signIn',
-    component: SignIn
+    component: (resolve) => require(['../view/SignIn'], resolve)
   },
   {
     path: '/registration',
     name: 'registration',
-    component: Registration,
+    component: (resolve) => require(['../view/Registration'], resolve),
     meta: {
       title: '注册'
     }
@@ -35,7 +24,7 @@ let routes = [
   {
     path: '/forgetPassword',
     name: 'forgetPassword',
-    component: ForgetPassword,
+    component: (resolve) => require(['../view/ForgetPassword'], resolve),
     meta: {
       title: '忘记密码'
     }
@@ -43,7 +32,7 @@ let routes = [
   {
     path: '/essentialInformationInput',
     name: 'essentialInformationInput',
-    component: EssentialInformationInput,
+    component: (resolve) => require(['../view/EssentialInformation'], resolve),
     meta: {
       title: '填写信息'
     }
@@ -51,7 +40,7 @@ let routes = [
   {
     path: '/home',
     name: 'home',
-    component: Home,
+    component: (resolve) => require(['../view/Home'], resolve),
     meta: {
       title: '首页'
     }
@@ -59,7 +48,7 @@ let routes = [
   {
     path: '/classList',
     name: 'classList',
-    component: ClassList,
+    component: (resolve) => require(['../view/ClassList'], resolve),
     meta: {
       title: '课程'
     }
@@ -67,7 +56,7 @@ let routes = [
   {
     path: '/classDetails',
     name: 'classDetails',
-    component: ClassDetails,
+    component: (resolve) => require(['../view/class/ClassDetails'], resolve),
     meta: {
       title: '课程详情'
     }
@@ -75,15 +64,31 @@ let routes = [
   {
     path: '/classWriteComment',
     name: 'classWriteComment',
-    component: ClassWriteComment,
+    component: (resolve) => require(['../view/class/ClassWriteComment'], resolve),
     meta: {
       title: '写评论'
     }
   },
   {
+    path: '/classTests',
+    name: 'classTests',
+    component: (resolve) => require(['../view/class/ClassTests'], resolve),
+    meta: {
+      title: '课程习题'
+    }
+  },
+  {
+    path: '/sharePage',
+    name: 'sharePage',
+    component: (resolve) => require(['../view/SharePage'], resolve),
+    meta: {
+      title: '一起来学习'
+    }
+  },
+  {
     path: '/buy',
     name: 'buy',
-    component: Buy,
+    component: (resolve) => require(['../view/Buy'], resolve),
     meta: {
       title: '购物车'
     }
@@ -91,9 +96,57 @@ let routes = [
   {
     path: '/confirmationInformation',
     name: 'confirmationInformation',
-    component: ConfirmationInformation,
+    component: (resolve) => require(['../view/buy/ConfirmationInformation'], resolve),
     meta: {
       title: '确认信息'
+    }
+  },
+  {
+    path: '/my',
+    name: 'my',
+    component: (resolve) => require(['../view/My'], resolve),
+    meta: {
+      title: '我的'
+    }
+  },
+  {
+    path: '/learningTaskReminder',
+    name: 'learningTaskReminder',
+    component: (resolve) => require(['../view/my/LearningTaskReminder'], resolve),
+    meta: {
+      title: '学习任务提醒'
+    }
+  },
+  {
+    path: '/personalData',
+    name: 'personalData',
+    component: (resolve) => require(['../view/my/PersonalData'], resolve),
+    meta: {
+      title: '个人中心'
+    }
+  },
+  {
+    path: '/learningSituation',
+    name: 'learningSituation',
+    component: (resolve) => require(['../view/my/LearningSituation'], resolve),
+    meta: {
+      title: '学习情况'
+    }
+  },
+  {
+    path: '/detailsOfLearning',
+    name: 'detailsOfLearning',
+    component: (resolve) => require(['../view/my/DetailsOfLearning'], resolve),
+    meta: {
+      title: '学习情况'
+    }
+  },
+  {
+    path: '/bindingChildrenAccounts',
+    name: 'bindingChildrenAccounts',
+    component: (resolve) => require(['../view/my/BindingChildrenAccounts'], resolve),
+    meta: {
+      title: '绑定孩子账号'
     }
   }
 ]
