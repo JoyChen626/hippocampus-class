@@ -20,14 +20,21 @@
           <span class="ico-myNav ico-myNav1"></span>
           <span class="num">8</span>
         </div>
-        <p class="p-myNav1">学习记录</p>
+        <p class="p-myNav1">{{identity=='teacher'?'观看记录':'学习记录'}}</p>
       </div>
-      <div class="nav-box nav-box2">
+      <div class="nav-box nav-box2" v-if="identity=='parent'||identity=='student'">
         <div class="myNav-img-box">
           <span class="ico-myNav ico-myNav2"></span>
           <span class="num">1</span>
         </div>
         <p class="p-myNav2">错题本</p>
+      </div>
+      <div class="nav-box nav-box2" v-if="identity=='teacher'">
+        <router-link tag="div" class="myNav-img-box" to="/homeworkRemaining">
+          <span class="ico-myNav ico-myNav2"></span>
+          <span class="num">1</span>
+        </router-link>
+        <router-link tag="p" class="p-myNav2" to="/homeworkRemaining">留作业</router-link>
       </div>
       <div class="nav-box nav-box3">
         <div class="myNav-img-box">
@@ -39,13 +46,20 @@
     </div>
     <div class="My-list-box">
       <div class="My-list">
-        <router-link tag="div" class="list-box clearFix" to="/learningSituation">
+        <router-link tag="div" class="list-box clearFix" to="/learningSituation" v-if="identity=='parent'">
           <div class="list-left flowLeft">
             <span class="list-logo logo-LearningSituation"></span>
             <span>学习情况</span>
           </div>
           <span class="list-right flowRight iconfont">&#xe616;</span>
         </router-link>
+        <div class="list-box clearFix" v-if="identity=='student'">
+          <div class="list-left flowLeft">
+            <span class="list-logo logo-myClass"></span>
+            <span>我的班级</span>
+          </div>
+          <span class="list-right flowRight iconfont">&#xe616;</span>
+        </div>
         <div class="list-box clearFix">
           <div class="list-left flowLeft">
             <span class="list-logo logo-myCollection"></span>
@@ -76,7 +90,7 @@
           </div>
           <span class="list-right flowRight iconfont">&#xe616;</span>
         </div>
-        <div class="list-box clearFix">
+        <div class="list-box clearFix" v-if="identity=='student'||identity=='parent'">
           <div class="list-left flowLeft">
             <span class="list-logo logo-taskReminder"></span>
             <span>学习任务提醒</span>
@@ -84,10 +98,10 @@
           <router-link tag="span" class="list-right flowRight iconfont" to="/learningTaskReminder">&#xe616;</router-link>
           <span class="flowRight list-right-word">您有2个待查看学习任务</span>
         </div>
-        <router-link tag="div" class="list-box clearFix" to="/bindingChildrenAccounts">
+        <router-link tag="div" class="list-box clearFix" to="/bindingChildrenAccounts" v-if="identity=='student'||identity=='parent'">
           <div class="list-left flowLeft">
             <span class="list-logo logo-bindAccount"></span>
-            <span>绑定孩子账号</span>
+            <span>{{identity=='student'?'绑定家长账号':'绑定孩子账号'}}</span>
           </div>
           <span class="list-right flowRight iconfont">&#xe616;</span>
         </router-link>
@@ -107,7 +121,8 @@ export default {
   data() {
     return {
       name: '啥是佩奇',
-      photo: ''
+      photo: '',
+      identity: 'teacher'
     }
   },
   mounted() {
@@ -267,6 +282,9 @@ export default {
           }
           .logo-myCollection{
             @include mix-ico-myCollection;
+          }
+          .logo-myClass{
+            @include mix-ico-myClass;
           }
           .logo-activationRecord{
             @include mix-ico-activationRecord;

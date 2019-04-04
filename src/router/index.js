@@ -110,6 +110,22 @@ let routes = [
     }
   },
   {
+    path: '/jobDetails',
+    name: 'jobDetails',
+    component: (resolve) => require(['../view/my/JobDetails'], resolve),
+    meta: {
+      title: '作业详情'
+    }
+  },
+  {
+    path: '/homeworkRemaining',
+    name: 'homeworkRemaining',
+    component: (resolve) => require(['../view/my/HomeworkRemaining'], resolve),
+    meta: {
+      title: '留作业'
+    }
+  },
+  {
     path: '/learningTaskReminder',
     name: 'learningTaskReminder',
     component: (resolve) => require(['../view/my/LearningTaskReminder'], resolve),

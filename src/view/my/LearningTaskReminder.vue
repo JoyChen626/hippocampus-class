@@ -2,7 +2,7 @@
   <div class="LearningTaskReminder">
     <task-reminder-header></task-reminder-header>
     <div class="TaskReminderList center">
-      <div class="List">
+      <router-link tag="div" class="List" to="/jobDetails">
         <div class="top clearFix">
           <span class="name flowLeft">亲爱的啥是佩奇</span>
           <span class="word1 flowRight">未读消息</span>
@@ -12,7 +12,7 @@
         <div class="bottom">
           <span>2018.02.23</span>
         </div>
-      </div>
+      </router-link>
       <div class="List">
         <div class="top clearFix">
           <span class="name flowLeft">亲爱的啥是佩奇</span>

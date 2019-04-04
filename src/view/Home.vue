@@ -6,7 +6,7 @@
        <div class="video-img-box">
          <span class="icoControl ico-to-play iconfont" @click="toPlayVideo">&#xe642;</span>
          <!--<span class="icoControl ico-to-suspend iconfont" v-if="play">&#xe630;</span>-->
-         <img class="video-img" :src="videoInfo.coverMap" alt="">
+         <img class="video-img" v-lazy="videoInfo.coverMap" :src="videoInfo.coverMap" alt="">
        </div>
      </div>
      <video class="Home-video" src="" controls="controls"></video>
@@ -15,7 +15,7 @@
      <div class="Home-articles-box" v-for="(item,index) in articleLists" :key="index">
        <div class="Home-article1 clearFix center" v-if="item.article1">
          <div class="article1-img-box flowLeft">
-           <img :src="item.article1.article1Src" alt="" class="article1-img">
+           <img v-lazy="item.article1.article1Src" :src="item.article1.article1Src" alt="" class="article1-img">
          </div>
          <div class="article1-words-box flowRight">
            <p>{{item.article1.article1Word}}</p>
@@ -30,7 +30,7 @@
        </div>
        <div class="Home-article2">
          <div class="article2-img-box">
-           <img :src="item.article2.article2Src" alt="" class="article2-img">
+           <img v-lazy="item.article2.article2Src" :src="item.article2.article2Src" alt="" class="article2-img">
          </div>
          <div class="article2-words-box center clearFix">
            <div class="flowLeft">
@@ -90,6 +90,11 @@ export default {
 
 <style scoped lang="scss" type="text/scss">
   @import "~scss/variable";
+  img[lazy=loading] {
+    width: px2rem(100px);
+    height: px2rem(100px);
+    margin: auto;
+  }
   .Home-video-box{
     position: relative;
     width: 100%;
