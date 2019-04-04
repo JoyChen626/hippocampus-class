@@ -1,15 +1,8 @@
 <template>
   <div class="DatetimePicker">
-    <!--<mt-popup v-model='regionVisible' id='three_level_address' v-if="regionVisible" position='bottom' class='region-popup'>-->
       <div class="pickerDemo">
-        <div class="showTime">
-          <div class="timeDes">
-            <p>当前时间是：{{this.selectedValue}}</p>
-          </div>
-          <div class="selectTime" @click="selectData">选择时间</div>
-        </div>
-        <div class="title" v-show="showDateTime">
-          <p>选择时间 : </p>
+        <div class="title" :class="showDateTime==false?'titleOld':'titleNew'">
+          <p>选择时间 : {{selectedValue}}</p>
           <div class="words">
             <span>年</span><span>月</span><span>日</span><span>时</span><span>分</span>
           </div>
@@ -33,12 +26,12 @@
             minute-format="{value}"
             second-format="{value}"
             @confirm="dateConfirm()"
-            @cancel="closePicker()"
+            @visible-change="changeDate"
+            @input="change"
           >
           </mt-datetime-picker>
         </div>
       </div>
-    <!--</mt-popup>-->
   </div>
 </template>
 
@@ -46,6 +39,24 @@
 import {formatDateMin} from '../../../assets/javascripts/formatdate.js'
 export default {
   name: 'DatetimePicker',
+  props: {
+    showPicker: {
+      type: Boolean,
+      default: false
+    },
+    pickerType: {
+      type: String,
+      default: ''
+    },
+    value01: {
+      type: String,
+      default: ''
+    },
+    value02: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       pVisible: false,
@@ -63,20 +74,39 @@ export default {
   methods: {
     selectData () { // 打开时间选择器
       // 如果已经选过日期，则再次打开时间选择器时，日期回显（不需要回显的话可以去掉 这个判断）
+      if (this.pickerType == '01') {
+        this.selectedValue = this.value01;
+      } else if (this.pickerType == '02') {
+        this.selectedValue = this.value02;
+      }
       if (this.selectedValue) {
         this.dateVal = this.selectedValue
       } else {
         this.dateVal = new Date()
       }
       this.$refs['datePicker'].open()
-      this.showDateTime = true
     },
-    dateConfirm () { // 时间选择器确定按钮，并把时间转换成我们需要的时间格式
-      this.selectedValue = formatDateMin(this.dateVal)
-      this.showDateTime = true
+    dateConfirm () {
+      this.selectedValue = formatDateMin(this.dateVal);
+      if (this.pickerType == '01') {
+        this.$emit('startTime', this.selectedValue);
+      } else if (this.pickerType == '02') {
+        this.$emit('endTime', this.selectedValue);
+      }
     },
-    closePicker() {
-      this.showDateTime = false
+    changeDate(data) {
+      this.showDateTime = data;
+      this.$emit('showPicker', this.showDateTime);
+    },
+    change(data) {
+      this.selectedValue = formatDateMin(data);
+    }
+  },
+  watch: {
+    showPicker() {
+      if (this.showPicker == true) {
+        this.selectData();
+      }
     }
   }
 }
@@ -88,7 +118,6 @@ export default {
   .title{
     z-index: 2500;
     position: absolute;
-    bottom: px2rem(600px);
     left: 0;
     width: 100%;
     p{
@@ -96,7 +125,7 @@ export default {
       padding-left: 4%;
       margin: 0 5%;
       font-size: px2rem(30px);
-      line-height: px2rem(80px);
+      line-height: 39px;
       color: $color-theme;
       border-bottom: 1px solid $color-theme;
     }
@@ -107,10 +136,18 @@ export default {
         display: inline-block;
         width: 20%;
         text-align: center;
-        line-height: px2rem(90px);
+        line-height: 40px;
         font-size: px2rem(30px);
       }
     }
+  }
+  .titleOld{
+    transition: .2s linear;
+    bottom: -80px;
+  }
+  .titleNew{
+    transition: .2s linear;
+    bottom: 297px;
   }
   .pickerDemo{
     width: 100%;
@@ -157,18 +194,18 @@ export default {
     }
     /deep/ .picker{
       position: relative;
-      padding:  px2rem(180px) px2rem(30px) px2rem(90px) px2rem(30px);
+      padding:  80px px2rem(30px) 45px px2rem(30px);
       .picker-toolbar{
         position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
         background-color: #eee;
-        height: px2rem(90px);
+        height: 45px;
         .mint-datetime-action{
           color: #999;
           width: px2rem(374.5px);
-          line-height: px2rem(90px);
+          line-height: 45px;
         }
         .mint-datetime-confirm{
           color: $color-theme;

@@ -3,17 +3,28 @@
     <homework-remaining-header></homework-remaining-header>
     <div class="JobDetails-box">
       <div class="JobDetails-content">
-        <div class="box clearFix">
+        <div class="box clearFix" @click="changeTime('01')">
           <h3 class="flowLeft">布置时间:</h3>
-          <p class="flowLeft">2018/04/01 16:40</p>
+          <input class="flowLeft" v-model="startTime" placeholder="请设置布置时间" readonly="readonly">
         </div>
-        <div class="box clearFix">
+        <div class="box clearFix" @click="changeTime('02')">
           <h3 class="flowLeft">截止时间:</h3>
-          <p class="flowLeft">2018/04/01 16:40</p>
+          <input class="flowLeft" v-model="endTime" placeholder="请设置截止时间" readonly="readonly">
         </div>
-        <div class="box clearFix">
-          <h3 class="flowLeft">发送到班级</h3>
-          <span class="flowRight ico-down iconfont">&#xe6b5;</span>
+        <div class="class-box">
+          <div class="top clearFix" @click="toShowClass">
+            <h3 class="flowLeft">发送到班级</h3>
+            <span class="flowRight ico-down iconfont" v-if="showClass==false">&#xe6b5;</span>
+            <span class="flowRight ico-down iconfont" v-if="showClass==true">&#xe6b6;</span>
+          </div>
+          <div class="bottom clearFix" v-if="showClass">
+            <div class="bottom-box" v-for="item in classLists" :key="item.id">
+              <label @click.prevent="checkedClassClick(item.id)">
+                <span class="icocheck icocheck1" :class="{icocheck2:checkedClass.length && checkedClass.indexOf(item.id) > -1}"></span>
+                <span class="name">{{item.name}}</span>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
       <div class="JobDetails-content JobDetails-content2">
@@ -45,7 +56,15 @@
         </div>
       </div>
     </div>
-    <datetime-picker></datetime-picker>
+    <datetime-picker
+      :showPicker="showTimePicker"
+      :pickerType="pickerType"
+      :value01="startTime"
+      :value02="endTime"
+      @startTime="getStartTime"
+      @endTime="getEndTime"
+      @showPicker="isShowPicker"
+    ></datetime-picker>
   </div>
 </template>
 
@@ -60,7 +79,49 @@ export default {
   },
   data() {
     return {
-      showPhoto: false
+      showPhoto: false,
+      showTimePicker: false,
+      pickerType: '',
+      startTime: '',
+      endTime: '',
+      classLists: [
+        {'id': '001', 'name': '初中化学一班'},
+        {'id': '002', 'name': '初中化学二班'},
+        {'id': '003', 'name': '初中物理一班'},
+        {'id': '004', 'name': '初中化学五班'},
+        {'id': '005', 'name': '初中物理一班'},
+        {'id': '006', 'name': '高中化学一班'},
+        {'id': '007', 'name': '高中物理三班'},
+        {'id': '008', 'name': '高中物理四班'}
+      ],
+      checkedClass: [],
+      showClass: false
+    }
+  },
+  methods: {
+    changeTime(val) {
+      this.showTimePicker = true;
+      this.pickerType = val;
+    },
+    getStartTime(data) {
+      this.startTime = data;
+    },
+    getEndTime(data) {
+      this.endTime = data;
+    },
+    isShowPicker(data) {
+      this.showTimePicker = data;
+    },
+    checkedClassClick(val) {
+      let thisId = this.checkedClass.indexOf(val);
+      if (thisId == -1) {
+        this.checkedClass.push(val)
+      } else {
+        this.checkedClass.splice(thisId, 1);
+      }
+    },
+    toShowClass() {
+      this.showClass = !this.showClass;
     }
   }
 }
@@ -68,7 +129,6 @@ export default {
 
 <style scoped lang="scss" type="text/scss">
   @import "~scss/variable";
-  @import "~iconsScss/sprite";
   .JobDetails-box{
     .JobDetails-content{
       border-bottom: px2rem(18px) solid #f4f4f4;
@@ -80,7 +140,7 @@ export default {
           line-height: px2rem(48px);
           margin-right: px2rem(20px);
         }
-        p{
+        input{
           font-size: px2rem(26px);
           line-height: px2rem(30px);
           padding: px2rem(9px) 0;
@@ -90,6 +150,51 @@ export default {
         .ico-down{
           margin-top: px2rem(12px);
           color: #cccccc;
+        }
+      }
+      .class-box{
+        .top{
+          padding: px2rem(28px) px2rem(30px);
+          border-bottom:  px2rem(2px) solid #f4f4f4;
+          h3{
+            font-size: px2rem(28px);
+            line-height: px2rem(48px);
+            margin-right: px2rem(20px);
+          }
+          .ico-down{
+            margin-top: px2rem(12px);
+            color: #cccccc;
+          }
+        }
+        .bottom{
+          padding: px2rem(15px) px2rem(30px);
+          .bottom-box{
+            float: left;
+            width: 40%;
+            padding: px2rem(15px) 0;
+            font-size: 0;
+            .icocheck{
+              display: inline-block;
+              width: px2rem(24px);
+              height: px2rem(24px);
+              vertical-align: middle;
+              border-radius: 50%;
+              margin-right: px2rem(20px);
+            }
+            .icocheck1{
+              border: 1px solid $color-theme;
+            }
+            .icocheck2{
+              background-color: $color-theme;
+            }
+            .name{
+              display: inline-block;
+              font-size: px2rem(24px);
+              line-height: px2rem(30px);
+              vertical-align: middle;
+              color: #666666;
+            }
+          }
         }
       }
     }
@@ -113,8 +218,8 @@ export default {
          font-size: 0;
          .boxs{
            display: inline-block;
-           width: px2rem(100px);
-           height: px2rem(100px);
+           width: px2rem(110px);
+           height: px2rem(110px);
            border: 1px dashed #eeeeee;
            margin-left: px2rem(20px);
            margin-bottom: px2rem(20px);
