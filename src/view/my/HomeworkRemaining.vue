@@ -32,7 +32,7 @@
           <h3 class="flowLeft">学习内容</h3>
         </div>
         <div class="contents-box">
-          <p class="contents">请在此处输入要发布的学习内容，让学生每天都有进步哦。</p>
+          <textarea class="contents" placeholder="请在此处输入要发布的学习内容，让学生每天都有进步哦。"></textarea>
           <div class="contents-boxs">
             <div class="boxs voice-box">
               <span class="iconfont">&#xe6e1;</span>
@@ -206,9 +206,14 @@ export default {
         margin: 0 px2rem(30px);
         border: 1px solid #eeeeee;
         .contents{
+          width: 95%;
           font-size: px2rem(26px);
           line-height: px2rem(40px);
-          padding: px2rem(20px) px2rem(20px);
+          padding: px2rem(20px) 2.5%;
+          border: none;
+          resize: none;
+          outline: none;
+          height: px2rem(200px);
         }
        .contents-boxs{
          position: absolute;

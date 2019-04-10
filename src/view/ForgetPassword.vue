@@ -2,10 +2,7 @@
   <div class="Forget-password">
     <forget-password-header></forget-password-header>
     <forget-password-logo :showLogo="showLogoBox"></forget-password-logo>
-    <forget-password-input :showInput="showInputBox" @SomeInput="getSomeInputValue"></forget-password-input>
-    <div class="Forget-password-button">
-      <span @click="getInputVal">重置密码</span>
-    </div>
+    <forget-password-input :showInput="showInputBox"></forget-password-input>
     <div class="other-Forget-password-box clearFix">
       <span class="other-toSignIn flowRight">已有账号，<router-link tag="span" class="other-toSignIn-blue" to="/signIn">去登录</router-link></span>
     </div>
@@ -16,7 +13,6 @@
 import ForgetPasswordHeader from '../components/common/header/Header'
 import ForgetPasswordLogo from '../components/common/logo/Logo'
 import ForgetPasswordInput from '../components/common/input/Input'
-import {MessageBox, Toast} from 'mint-ui';
 export default {
   name: 'ForgetPassword',
   components: {
@@ -27,49 +23,10 @@ export default {
   data() {
     return {
       showLogoBox: 2,
-      showInputBox: 4,
-      someValue: [],
-      valueOk: false
+      showInputBox: 4
     }
   },
-  methods: {
-    getSomeInputValue(data) {
-      this.someValue = data;
-    },
-    checkedInput() {
-      if (!this.someValue.phoneNumberText || this.someValue.phoneNumberText == '') {
-        MessageBox.alert('请输入手机号码').then(action => {});
-        return false;
-      }
-      if (!this.someValue.verificationCodeText || this.someValue.verificationCodeText == '') {
-        MessageBox.alert('请输入验证码').then(action => {});
-        return false;
-      }
-      if (!this.someValue.userPasswordText1 || this.someValue.userPasswordText1 == '') {
-        MessageBox.alert('请输入密码').then(action => {});
-        return false;
-      }
-      if (!this.someValue.userPasswordText2 || this.someValue.userPasswordText2 == '') {
-        MessageBox.alert('请再次输入密码').then(action => {});
-        return false;
-      }
-      if (this.someValue.userPasswordText1 && this.someValue.userPasswordText2 && this.someValue.userPasswordText1 !== this.someValue.userPasswordText2) {
-        MessageBox.alert('第二次输入的密码与第一次不一致,请重新输入').then(action => {});
-        return false;
-      }
-      this.valueOk = true;
-    },
-    getInputVal() {
-      this.checkedInput();
-      if (!this.valueOk) {
-        return false;
-      };
-      Toast('恭喜您，重置密码成功，请重新登录');
-      setTimeout(() => {
-        this.$router.push({path: '/signIn'})
-      }, 3000);
-    }
-  }
+  methods: {}
 }
 </script>
 

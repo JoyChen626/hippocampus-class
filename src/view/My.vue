@@ -22,7 +22,7 @@
         </div>
         <p class="p-myNav1">{{identity=='teacher'?'观看记录':'学习记录'}}</p>
       </div>
-      <div class="nav-box nav-box2" v-if="identity=='parent'||identity=='student'">
+      <div class="nav-box nav-box2" v-if="identity=='parents'||identity=='student'">
         <div class="myNav-img-box">
           <span class="ico-myNav ico-myNav2"></span>
           <span class="num">1</span>
@@ -46,7 +46,7 @@
     </div>
     <div class="My-list-box">
       <div class="My-list">
-        <router-link tag="div" class="list-box clearFix" to="/learningSituation" v-if="identity=='parent'">
+        <router-link tag="div" class="list-box clearFix" to="/learningSituation" v-if="identity=='parents'">
           <div class="list-left flowLeft">
             <span class="list-logo logo-LearningSituation"></span>
             <span>学习情况</span>
@@ -90,7 +90,7 @@
           </div>
           <span class="list-right flowRight iconfont">&#xe616;</span>
         </div>
-        <div class="list-box clearFix" v-if="identity=='student'||identity=='parent'">
+        <div class="list-box clearFix" v-if="identity=='student'||identity=='parents'">
           <div class="list-left flowLeft">
             <span class="list-logo logo-taskReminder"></span>
             <span>学习任务提醒</span>
@@ -98,7 +98,7 @@
           <router-link tag="span" class="list-right flowRight iconfont" to="/learningTaskReminder">&#xe616;</router-link>
           <span class="flowRight list-right-word">您有2个待查看学习任务</span>
         </div>
-        <router-link tag="div" class="list-box clearFix" to="/bindingChildrenAccounts" v-if="identity=='student'||identity=='parent'">
+        <router-link tag="div" class="list-box clearFix" to="/bindingChildrenAccounts" v-if="identity=='student'||identity=='parents'">
           <div class="list-left flowLeft">
             <span class="list-logo logo-bindAccount"></span>
             <span>{{identity=='student'?'绑定家长账号':'绑定孩子账号'}}</span>
@@ -122,12 +122,20 @@ export default {
     return {
       name: '啥是佩奇',
       photo: '',
-      identity: 'teacher'
+      identity: ''
+    }
+  },
+  methods: {
+    getInfor() {
+      this.photo = this.$store.state.BasicInfor.photo;
+      this.name = this.$store.state.BasicInfor.userName;
+      this.identity = this.$store.state.BasicInfor.checkIdentity;
     }
   },
   mounted() {
-    this.name = this.$store.state.nickName;
-    this.photo = this.$store.state.photoImg;
+    this.getInfor();
+    // this.name = this.$store.state.nickName;
+    // this.photo = this.$store.state.photoImg;
   },
   activated() {
     let oldName = this.name;

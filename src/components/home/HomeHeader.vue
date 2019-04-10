@@ -5,28 +5,35 @@
         <span class="left-search iconfont">&#xe612;</span>
       </div>
       <div class="HomeHeader-input">
-        <span class="ico-seach-logo iconfont" v-if="inputValue===''&&keyDown">&#xe615;</span>
-        <input type="text" v-model="inputValue" @keydown="inputkeyDown" @keyup="inputkeyUp" class="header-input" placeholder="搜索">
+        <span class="ico-seach-logo iconfont">&#xe615;</span>
+        <input type="text" @click="toSearch" class="header-input" placeholder="搜索">
       </div>
     </div>
+    <home-search @hideSearch="getHideSearchFlag" @back="closeSearch" v-if="isSearch"></home-search>
   </div>
 </template>
 
 <script>
+import HomeSearch from '../../components/common/search/Search'
 export default {
   name: 'HomeHeader',
+  components: {
+    HomeSearch
+  },
   data() {
     return {
-      keyDown: true,
-      inputValue: ''
+      isSearch: false
     }
   },
   methods: {
-    inputkeyDown() {
-      this.keyDown = false;
+    toSearch() {
+      this.isSearch = true;
     },
-    inputkeyUp() {
-      this.keyDown = true;
+    closeSearch(data) {
+      this.isSearch = data;
+    },
+    getHideSearchFlag(data) {
+      this.isSearch = data;
     }
   }
 }
@@ -58,7 +65,7 @@ export default {
           left: 38%;
           top: 50%;
           margin-top: px2rem(-18px);
-          color: $color-text-m;
+          color: #dddddd;
         }
         .header-input{
           width: 92%;

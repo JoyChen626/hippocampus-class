@@ -3,7 +3,6 @@
     <div class="input-box" v-if="showInput===1||showInput===3||showInput===5">
       <i v-if="showInput===5"></i><span class="ico-userName"></span><input
       v-model="someInputVal.userNameText"
-      v-on:input="updateValue($event.target.value,'userNameText')"
       type="text"
       class="input-userName"
       placeholder="请输入用户名"
@@ -13,50 +12,59 @@
     ><span class="ico-delect" @click="delectUserNmae" v-if="showInput===1"></span>
     </div>
     <div class="input-box" v-if="showInput===2||showInput===3||showInput===4||showInput===5">
-      <i v-if="showInput===5"></i><span class="ico-phoneNumber"></span><input
+      <i v-if="showInput===5"></i><span class="ico-phoneNumber"></span>
+      <input v-if="showInput!==5"
       v-model="someInputVal.phoneNumberText"
       maxlength="11"
-      v-on:input="updateValue($event.target.value,'phoneNumberText')"
       type="tel"
       class="input-phoneNumber"
       placeholder="请输入手机号码"
       onkeyup="value=value.replace(/[^0-9]/g,'')"
       onpaste="value=value.replace(/[^0-9]/g,'')"
       oncontextmenu="value=value.replace(/[^0-9]/g,'')"
-    ><span class="ico-delect" @click="delectPhoneNumber" v-if="showInput===2"></span>
+    >
+      <input v-if="showInput===5"
+        v-model="someInputVal.phoneNumberText"
+        maxlength="11"
+        type="tel"
+        class="input-phoneNumber"
+        placeholder="请输入手机号码"
+        onkeyup="value=value.replace(/[^0-9]/g,'')"
+        onpaste="value=value.replace(/[^0-9]/g,'')"
+        oncontextmenu="value=value.replace(/[^0-9]/g,'')"
+        readonly="readonly"
+      >
+      <span class="ico-delect" @click="delectPhoneNumber" v-if="showInput===2"></span>
     </div>
     <div class="input-box clearFix" v-if="showInput===2||showInput===3||showInput===4">
       <span class="ico-verificationCode"></span><input
       type="tel"
       class="input-verificationCode"
       placeholder="请输入验证码"
-      v-on:input="updateValue($event.target.value,'verificationCodeText')"
       v-model="someInputVal.verificationCodeText"
       onkeyup="value=value.replace(/[^0-9]/g,'')"
       onpaste="value=value.replace(/[^0-9]/g,'')"
       oncontextmenu="value=value.replace(/[^0-9]/g,'')"
       maxlength="6"
-    ><span class="verificationCode1 flowRight" :class="showInput===2?'verificationCode1':'verificationCode2'">获取验证码</span>
+    ><span class="verificationCode flowRight" @click="getverificationCode" :class="{verificationCode2:showInput!==2,verificationCode1:timer}">{{conutTimeText}}</span>
     </div>
     <div class="input-box" v-if="showInput===1||showInput===3||showInput===4">
       <span class="ico-password"></span><input
       :type="seePassword1===0?'password':'text'"
       class="input-password"
-      v-on:input="updateValue($event.target.value,'userPasswordText1')"
       v-model="someInputVal.userPasswordText1"
       placeholder="请输入密码"
       maxlength="25"
-    ><span class="icoHidePassword" :class="seePassword1===1?'icoShowPassword':'icoHidePassword'" @click="viewPassword1" v-if="showInput===1||showInput===3"></span>
+    ><span :class="seePassword1===1?'icoShowPassword':'icoHidePassword'" @click="viewPassword1" v-if="showInput===1||showInput===3"></span>
     </div>
     <div class="input-box" v-if="showInput===3||showInput===4">
       <span class="ico-password"></span><input
       :type="seePassword2===0?'password':'text'"
       class="input-password"
-      v-on:input="updateValue($event.target.value,'userPasswordText2')"
       v-model="someInputVal.userPasswordText2"
       placeholder="请再次确认密码"
       maxlength="25"
-    ><span class="icoHidePassword" :class="seePassword2===1?'icoShowPassword':'icoHidePassword'" @click="viewPassword2" v-if="showInput===1||showInput===3"></span>
+    ><span :class="seePassword2===1?'icoShowPassword':'icoHidePassword'" @click="viewPassword2" v-if="showInput===1||showInput===3"></span>
     </div>
     <div class="input-box" v-if="showInput===5">
       <i v-if="showInput===5"></i><span class="ico-gender"></span>
@@ -77,9 +85,7 @@
       <i v-if="showInput===5"></i><span class="ico-school"></span><input
       v-model="someInputVal.schoolText"
       type="text" class="input-school"
-      v-on:input="updateValue($event.target.value,'schoolText')"
       placeholder="请输入学校姓名"
-      onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
       onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
       oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
       maxlength="30"
@@ -90,9 +96,7 @@
       v-model="someInputVal.classText"
       type="text"
       class="input-class"
-      v-on:input="updateValue($event.target.value,'classText')"
       placeholder="请输入班级姓名"
-      onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
       onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
       oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5]/g,'')"
       maxlength="10"
@@ -103,17 +107,27 @@
       v-model="someInputVal.regionText"
       type="text"
       @click="showAddressPicker"
-      v-on:input="updateValue($event.target.value,'regionText')"
       class="input-region"
       placeholder="请选择省、市、区"
       readonly="readonly"
     >
+    </div>
+    <div class="Registration-statement" v-if="showInput===3">
+      <i :class="statementStatus===0?'statementCheckedNo':'statementCheckedYes'" @click="statementChecked"></i><span>我同意</span><span class="statement-word-blue">《海马课堂服务协议》</span>
+    </div>
+    <div class="input-button">
+      <span v-if="showInput==1||showInput==2" @click="getInputVal1" class="button1">登录</span>
+      <span v-if="showInput==3" @click="getInputVal2" class="button2">注册</span>
+      <span v-if="showInput==4" @click="getInputVal3" class="button2">重置密码</span>
+      <span v-if="showInput==5" @click="getInputVal4" class="button2">提交</span>
     </div>
   </div>
 </template>
 
 <script>
 import Bus from '../../../assets/javascripts/eventBus'
+import {MessageBox, Toast} from 'mint-ui';
+import {mapMutations} from 'vuex'
 export default {
   name: 'Input',
   props: {
@@ -138,39 +152,48 @@ export default {
         schoolText: '',
         classText: '',
         regionText: ''
-      }
+      },
+      statementStatus: 0,
+      valueOk: false,
+      isclickedFlag: false,
+      timer: null,
+      canClick: true,
+      conutTime: 60,
+      conutTimeText: '获取验证码'
     }
   },
   methods: {
+    getAreadyInfor() {
+      if (this.showInput !== 3) {
+        this.someInputVal.userNameText = this.$store.state.BasicInfor.userName;
+      }
+      if (this.showInput == 5) {
+        this.someInputVal.phoneNumberText = this.$store.state.BasicInfor.phoneNumber;
+      }
+    },
+    getverificationCode() {
+      this.isclickedFlag = true;
+      if (!this.canClick) {
+        return
+      }
+      this.canClick = false;
+      this.conutTimeText = this.conutTime + 's后重试';
+      this.timer = setInterval(() => {
+        this.conutTime--;
+        this.conutTimeText = this.conutTime + 's后重试';
+        if (this.conutTime <= 0) {
+          clearInterval(this.timer);
+          this.canClick = true;
+          this.conutTimeText = '重新获取';
+          this.conutTime = 60
+        }
+      }, 1000);
+    },
     // 打开地址选择器
     showAddressPicker() {
       Bus.$emit('showAdressPicker', true);
       document.getElementsByTagName('html')[0].style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
-    },
-    updateValue(data, elem) {
-      if (elem == 'userNameText') { // 用户名
-        this.someInputVal.userNameText = data;
-      } else if (elem == 'userPasswordText1') { // 密码1
-        this.someInputVal.userPasswordText1 = data;
-      } else if (elem == 'userPasswordText2') { // 密码2
-        this.someInputVal.userPasswordText2 = data;
-      } else if (elem == 'phoneNumberText') { // 电话
-        this.someInputVal.phoneNumberText = data;
-      } else if (elem == 'verificationCodeText') { // 验证码
-        this.someInputVal.verificationCodeText = data;
-      } else if (elem == 'checkGender') { // 性别
-        this.someInputVal.checkGender = data;
-      } else if (elem == 'checkIdentity') { // 身份
-        this.someInputVal.checkIdentity = data;
-      } else if (elem == 'schoolText') { // 学习
-        this.someInputVal.schoolText = data;
-      } else if (elem == 'classText') { // 班级
-        this.someInputVal.classText = data;
-      } else if (elem == 'regionText') { // 地区
-        this.someInputVal.regionText = data;
-      }
-      this.$emit('SomeInput', this.someInputVal);
     },
     viewPassword1() {
       if (this.seePassword1 === 0) {
@@ -191,18 +214,234 @@ export default {
     },
     delectPhoneNumber() {
       this.someInputVal.phoneNumberText = '';
+    },
+    statementChecked() {
+      if (this.statementStatus === 0) {
+        this.statementStatus = 1;
+      } else {
+        this.statementStatus = 0;
+      }
+    },
+    checkedInput() {
+      // 用户名登陆
+      if (this.showInput === 1) {
+        if (!this.someInputVal.userNameText || this.someInputVal.userNameText == '') {
+          MessageBox.alert('请填写用户名').then(action => {});
+          return false;
+        }
+        if (this.someInputVal.userNameText != this.$store.state.BasicInfor.userName) {
+          MessageBox.alert('该用户名不存在,请先注册').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.userPasswordText1 || this.someInputVal.userPasswordText1 == '') {
+          MessageBox.alert('请输入密码').then(action => {});
+          return false;
+        }
+        if (this.someInputVal.userPasswordText1 != this.$store.state.BasicInfor.password) {
+          MessageBox.alert('密码错误请确认后重试!').then(action => {});
+          return false;
+        }
+        this.valueOk = true;
+        // 手机号登陆
+      } else if (this.showInput === 2) {
+        if (!this.someInputVal.phoneNumberText || this.someInputVal.phoneNumberText == '') {
+          MessageBox.alert('请填写手机号').then(action => {});
+          return false;
+        }
+        if (this.someInputVal.phoneNumberText != this.$store.state.BasicInfor.phoneNumber) {
+          MessageBox.alert('该手机号尚未注册,请先注册').then(action => {});
+          return false;
+        }
+        if (!this.isclickedFlag) {
+          MessageBox.alert('请先获取验证码').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.verificationCodeText || this.someInputVal.verificationCodeText == '') {
+          MessageBox.alert('请输入验证码').then(action => {});
+          return false;
+        }
+        this.valueOk = true;
+        // 注册
+      } else if (this.showInput === 3) {
+        if (!this.someInputVal.userNameText || this.someInputVal.userNameText == '') {
+          MessageBox.alert('请输入用户名').then(action => {
+          });
+          return false;
+        }
+        if (!this.someInputVal.phoneNumberText || this.someInputVal.phoneNumberText == '') {
+          MessageBox.alert('请输入手机号码').then(action => {
+          });
+          return false;
+        }
+        if (!this.isclickedFlag) {
+          MessageBox.alert('请先获取验证码').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.verificationCodeText || this.someInputVal.verificationCodeText == '') {
+          MessageBox.alert('请输入验证码').then(action => {
+          });
+          return false;
+        }
+        if (!this.someInputVal.userPasswordText1 || this.someInputVal.userPasswordText1 == '') {
+          MessageBox.alert('请输入密码').then(action => {
+          });
+          return false;
+        }
+        if (!this.someInputVal.userPasswordText2 || this.someInputVal.userPasswordText2 == '') {
+          MessageBox.alert('请再次输入密码').then(action => {
+          });
+          return false;
+        }
+        if (this.someInputVal.userPasswordText1 && this.someInputVal.userPasswordText2 && this.someInputVal.userPasswordText1 !== this.someInputVal.userPasswordText2) {
+          MessageBox.alert('第二次输入的密码与第一次不一致,请重新输入').then(action => {
+          });
+          return false;
+        }
+        if (this.statementStatus == 0) {
+          MessageBox.alert('请勾选海马课堂服务协议').then(action => {
+          });
+          return false;
+        }
+        this.valueOk = true;
+        // 重置密码
+      } else if (this.showInput === 4) {
+        if (!this.someInputVal.phoneNumberText || this.someInputVal.phoneNumberText == '') {
+          MessageBox.alert('请输入手机号码').then(action => {});
+          return false;
+        }
+        if (this.someInputVal.phoneNumberText != this.$store.state.BasicInfor.phoneNumber) {
+          MessageBox.alert('该手机号尚未注册,请先注册').then(action => {});
+          return false;
+        }
+        if (!this.isclickedFlag) {
+          MessageBox.alert('请先获取验证码').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.verificationCodeText || this.someInputVal.verificationCodeText == '') {
+          MessageBox.alert('请输入验证码').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.userPasswordText1 || this.someInputVal.userPasswordText1 == '') {
+          MessageBox.alert('请输入密码').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.userPasswordText2 || this.someInputVal.userPasswordText2 == '') {
+          MessageBox.alert('请再次输入密码').then(action => {});
+          return false;
+        }
+        if (this.someInputVal.userPasswordText1 && this.someInputVal.userPasswordText2 && this.someInputVal.userPasswordText1 !== this.someInputVal.userPasswordText2) {
+          MessageBox.alert('第二次输入的密码与第一次不一致,请重新输入').then(action => {});
+          return false;
+        }
+        this.valueOk = true;
+        // 基本信息
+      } else if (this.showInput === 5) {
+        if (!this.someInputVal.userNameText || this.someInputVal.userNameText == '') {
+          MessageBox.alert('请填写用户名').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.checkGender || this.someInputVal.checkGender == '') {
+          MessageBox.alert('请选择性别').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.checkIdentity || this.someInputVal.checkIdentity == '') {
+          MessageBox.alert('请选择您的身份').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.schoolText || this.someInputVal.schoolText == '') {
+          MessageBox.alert('请填写学校名称').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.classText || this.someInputVal.classText == '') {
+          MessageBox.alert('请填写班级名称').then(action => {});
+          return false;
+        }
+        if (!this.someInputVal.regionText || this.someInputVal.regionText == '') {
+          MessageBox.alert('请选择所在地区').then(action => {});
+          return false;
+        }
+        this.valueOk = true;
+      }
+    },
+    ...mapMutations('BasicInfor', ['saveSuginInInfor']),
+    getInputVal1() {
+      this.checkedInput();
+      if (!this.valueOk) {
+        return false;
+      }
+      let data = {'flag': this.valueOk};
+      this.saveSuginInInfor(data);
+      this.$router.push({path: '/home'})
+    },
+    ...mapMutations('BasicInfor', ['saveRegistrationInfor']),
+    getInputVal2() {
+      this.checkedInput();
+      if (!this.valueOk) {
+        return false;
+      };
+      let data = {
+        userName: this.someInputVal.userNameText,
+        phoneNumber: this.someInputVal.phoneNumberText,
+        userPassword: this.someInputVal.userPasswordText1
+      }
+      this.saveRegistrationInfor(data);
+      Toast('恭喜您，注册成功');
+      setTimeout(() => {
+        this.$router.push({path: '/essentialInformationInput'})
+      }, 3000);
+    },
+    ...mapMutations('BasicInfor', ['changePassword']),
+    getInputVal3() {
+      this.checkedInput();
+      if (!this.valueOk) {
+        return false;
+      };
+      let data = {
+        userPassword: this.someInputVal.userPasswordText1
+      }
+      this.changePassword(data);
+      Toast('恭喜您，重置密码成功，请重新登录');
+      setTimeout(() => {
+        this.$router.push({path: '/signIn'})
+      }, 3000);
+    },
+    ...mapMutations('BasicInfor', ['saveBasicInfor']),
+    getInputVal4() {
+      this.checkedInput();
+      if (!this.valueOk) {
+        return false;
+      }
+      let data = {
+        userName: this.someInputVal.userNameText,
+        checkGender: this.someInputVal.checkGender,
+        checkIdentity: this.someInputVal.checkIdentity,
+        school: this.someInputVal.schoolText,
+        class: this.someInputVal.classText,
+        region: this.someInputVal.regionText
+      }
+      this.saveBasicInfor(data);
+      Toast('您的信息已提交成功');
+      setTimeout(() => {
+        this.$router.push({path: '/home'})
+      }, 3000);
     }
   },
   mounted() {
     Bus.$on('adressData', (data) => {
       this.someInputVal.regionText = data.name;
-    })
+    });
+    this.getAreadyInfor();
   },
   watch: {
     showInput() {
       if (this.showInput === 2) {
         this.someInputVal.userNameText = '';
         this.someInputVal.userPasswordText1 = '';
+        clearInterval(this.timer);
+        this.timer = null;
+        this.canClick = true;
+        this.conutTime = 60
+        this.conutTimeText = '获取验证码';
       } else if (this.showInput === 1) {
         this.someInputVal.phoneNumberText = '';
         this.someInputVal.verificationCodeText = '';
@@ -288,7 +527,7 @@ export default {
     .ico-verificationCode{
       @include mix-ico-verificationCode;
     }
-    .verificationCode1{
+    .verificationCode{
       display: inline-block;
       width: px2rem(160px);
       height: px2rem(55px);
@@ -298,6 +537,9 @@ export default {
       background: $color-border;
       font-size: $font-size-small;
       color: $color-text;
+    }
+    .verificationCode1{
+      background: #d3d3d3!important;
     }
     .verificationCode2{
       background: $color-theme;
@@ -317,6 +559,47 @@ export default {
     .ico-region{
       @include mix-ico-region;
     }
+  }
+  .Registration-statement{
+    margin-top: px2rem(40px);
+    i,span{
+      vertical-align: middle;
+    }
+    i{
+      margin-right: px2rem(10px);
+    }
+    .statementCheckedNo{
+      @include mix-ico-checkBox1;
+    }
+    .statementCheckedYes{
+      @include mix-ico-checkBox2;
+    }
+    span{
+      font-size: $font-size-small;
+    }
+    .statement-word-blue{
+      color: $color-theme;
+    }
+  }
+  .input-button{
+    margin: px2rem(80px) 0 px2rem(20px) 0;
+    height: px2rem(94px);
+    border-radius: px2rem(47px);
+    overflow: hidden;
+    span{
+      display: inline-block;
+      width: 100%;
+      height: px2rem(94px);
+      line-height: px2rem(94px);
+      text-align: center;
+      color: $color-text;
+    }
+  }
+  .button1{
+    background: linear-gradient(left, #8f96f5, #5be5f2);
+  }
+  .button2{
+    background: $color-theme;
   }
 }
 </style>

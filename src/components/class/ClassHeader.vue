@@ -13,12 +13,12 @@
         </div>
       </div>
     </div>
-    <class-search @back="closeSearch" v-if="isSearch"></class-search>
+    <class-search @hideSearch="getHideSearchFlag" @back="closeSearch" v-if="isSearch"></class-search>
   </div>
 </template>
 
 <script>
-import ClassSearch from '../class/ClassSearch'
+import ClassSearch from '../common/search/Search'
 export default {
   name: 'ClassHeader',
   components: {
@@ -33,8 +33,12 @@ export default {
     toSearch() {
       this.isSearch = true;
     },
-    closeSearch() {
-      this.isSearch = false;
+    closeSearch(data) {
+      this.isSearch = data;
+    },
+    getHideSearchFlag(data) {
+      this.isSearch = data.show;
+      this.$emit('keywords', data.searchResult)
     }
   }
 }

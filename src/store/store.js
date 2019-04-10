@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import state from '../store/modules/status'
-import mutations from '../store/modules/mutations'
+import BasicInfor from './BasicInfor/index'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  state,
-  mutations
+  modules: {
+    BasicInfor
+  }
 })
 
 export default store

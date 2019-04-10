@@ -57,14 +57,16 @@
     <div class="data-box">
       <div class="box clearFix">
         <span class="word-left flowLeft">身份</span>
-        <span class="word flowRight">{{personalData.identity}}</span>
+        <span class="word flowRight" v-if="personalData.identity==='student'">学生</span>
+        <span class="word flowRight" v-if="personalData.identity==='teacher'">教师</span>
+        <span class="word flowRight" v-if="personalData.identity==='parents'">家长</span>
       </div>
     </div>
     <div class="full"></div>
     <div class="data-box">
       <div class="box clearFix">
         <span class="word-left flowLeft">学校</span>
-        <span class="word flowRight">{{personalData.school}}</span>
+        <input type="text" class="input flowRight" v-model="personalData.school">
       </div>
     </div>
     <personal-data-picker></personal-data-picker>
@@ -88,12 +90,20 @@ export default {
         name: '',
         checkGender: '',
         adress: '',
-        identity: '家长',
-        school: '附属一中'
+        identity: '',
+        school: ''
       }
     }
   },
   methods: {
+    getMassage() {
+      this.personalData.photoSrc = this.$store.state.BasicInfor.photo;
+      this.personalData.name = this.$store.state.BasicInfor.userName;
+      this.personalData.checkGender = this.$store.state.BasicInfor.checkGender;
+      this.personalData.identity = this.$store.state.BasicInfor.checkIdentity;
+      this.personalData.adress = this.$store.state.BasicInfor.region;
+      this.personalData.school = this.$store.state.BasicInfor.school;
+    },
     routerback() {
       this.$router.back(-1);
     },
@@ -121,21 +131,17 @@ export default {
         };
       }
     },
-    ...mapMutations(['savePersonalData']),
+    ...mapMutations('BasicInfor', ['savePersonalData']),
     saveData() {
       if (this.personalData.name == '') {
         MessageBox.alert('还不知道您怎么称呼呢，请填写昵称').then(action => {});
         return false;
-      } else if (this.personalData.checkGender == '') {
-        MessageBox.alert('请选择您的性别').then(action => {});
-        return false;
-      } else if (this.personalData.adress == '') {
-        MessageBox.alert('请选择地址').then(action => {});
-        return false;
       }
       let data = {
-        name: this.personalData.name,
-        photo: this.personalData.photoSrc
+        userName: this.personalData.name,
+        photo: this.personalData.photoSrc,
+        checkGender: this.personalData.checkGender,
+        region: this.personalData.adress
       };
       this.savePersonalData(data);
       this.$router.push({path: '/my'})
@@ -145,6 +151,7 @@ export default {
     Bus.$on('adressData', (data) => {
       this.personalData.adress = data.name;
     })
+    this.getMassage();
   }
 }
 </script>

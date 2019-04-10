@@ -1,6 +1,6 @@
 <template>
   <div class="ClassList">
-    <class-header></class-header>
+    <class-header @keywords="getSearchResult"></class-header>
     <div class="ClassList-nav">
       <ul class="ClassList-nav-ul clearFix">
         <li class="ClassList-nav-li" @click="ClassListNavClick(item.id)" v-for="(item) in classNav" :key="item.id">
@@ -53,6 +53,7 @@ export default {
   methods: {
     ClassListNavClick(res) {
       this.currentCount = res;
+      this.classList = this.classNav[res - 1].classList
     },
     getClassInfo() {
       this.axios.get('../../static/mock/class.json')
@@ -64,7 +65,15 @@ export default {
     initClassPage(res) {
       let data = res.data;
       this.classNav = data.classNav;
-      this.classList = data.classList;
+      this.classList = data.classNav[0].classList;
+    },
+    getSearchResult(data) {
+      this.classNav.forEach((item, index) => {
+        if (item.navTitle === data) {
+          this.currentCount = this.classNav[index].id;
+          this.classList = this.classNav[index].classList;
+        }
+      })
     }
   },
   mounted() {

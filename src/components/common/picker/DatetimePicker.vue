@@ -120,6 +120,7 @@ export default {
     position: absolute;
     left: 0;
     width: 100%;
+    overflow: hidden;
     p{
       width: 86%;
       padding-left: 4%;
@@ -142,10 +143,12 @@ export default {
     }
   }
   .titleOld{
+    height: 0;
     transition: .2s linear;
     bottom: -80px;
   }
   .titleNew{
+    height: 80px;
     transition: .2s linear;
     bottom: 297px;
   }
