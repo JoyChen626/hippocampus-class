@@ -7,12 +7,12 @@
     </div>
     <div class="My-top">
       <div class="Head-portrait-box">
-        <div class="Head-portrait">
-          <img src="../assets/images/photo.png" class="Head-img" alt="" v-if="photo==''">
+        <router-link tag="div" class="Head-portrait" to="/personalData">
+          <img src="../assets/images/phone-bg.png" class="Head-img" alt="" v-if="photo==''">
           <img :src="photo" class="Head-img" alt="" v-if="photo!=''">
-        </div>
+        </router-link>
       </div>
-      <div class="My-name"><span>{{name}}</span><router-link tag="span" class="edit" to="/personalData"></router-link></div>
+      <div class="My-name"><router-link tag="span" to="/personalData">{{name}}</router-link><router-link tag="span" class="edit" to="/personalData"></router-link></div>
     </div>
     <div class="My-nav clearFix">
       <div class="nav-box nav-box1">
@@ -83,21 +83,21 @@
         </div>
       </div>
       <div class="My-list">
-        <div class="list-box clearFix">
+        <router-link tag="div" class="list-box clearFix" to="/rollBag">
           <div class="list-left flowLeft">
             <span class="list-logo logo-rollBag"></span>
             <span>卷包</span>
           </div>
           <span class="list-right flowRight iconfont">&#xe616;</span>
-        </div>
-        <div class="list-box clearFix" v-if="identity=='student'||identity=='parents'">
+        </router-link>
+        <router-link tag="div" class="list-box clearFix" to="/learningTaskReminder" v-if="identity=='student'||identity=='parents'">
           <div class="list-left flowLeft">
             <span class="list-logo logo-taskReminder"></span>
             <span>学习任务提醒</span>
           </div>
-          <router-link tag="span" class="list-right flowRight iconfont" to="/learningTaskReminder">&#xe616;</router-link>
+          <span class="list-right flowRight iconfont">&#xe616;</span>
           <span class="flowRight list-right-word">您有2个待查看学习任务</span>
-        </div>
+        </router-link>
         <router-link tag="div" class="list-box clearFix" to="/bindingChildrenAccounts" v-if="identity=='student'||identity=='parents'">
           <div class="list-left flowLeft">
             <span class="list-logo logo-bindAccount"></span>

@@ -15,6 +15,7 @@ const mutations = {
     state.class = val.class;
     state.region = val.region;
     sessionStorage.setItem('userName', state.userName);
+    sessionStorage.setItem('checkIdentity', state.checkIdentity);
   },
   saveSuginInInfor(state, val) {
     state.landFlag = val.flag;
@@ -24,6 +25,7 @@ const mutations = {
     state.userName = val.userName;
     state.checkGender = val.checkGender;
     state.region = val.region;
+    state.school = val.school;
     sessionStorage.setItem('userName', state.userName);
   },
   changePassword(state, val) {

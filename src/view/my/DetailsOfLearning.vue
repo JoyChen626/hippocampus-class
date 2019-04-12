@@ -11,50 +11,50 @@
       </div>
     </div>
     <div class="Details-nav-box">
-      <span class="nav-left noneCheck">昨日</span>
-      <span class="nav-right">7日</span>
+      <span @click="checkedDate(1)" class="nav-left" :class="{Check:showDateInfor==1}">昨日</span>
+      <span @click="checkedDate(7)" class="nav-right" :class="{Check:showDateInfor==7}">7日</span>
     </div>
     <div class="Details-Statistics-box">
       <div class="Statistics">
         <div class="Statistic Statistic1">
           <p class="Statistic-title">看完课程</p>
-          <p class="Statistic-num">3</p>
+          <p class="Statistic-num">{{showDateInfor==1?YesterdayData.part1.class.complete:SevendaysData.part1.class.complete}}</p>
         </div>
         <div class="Statistic Statistic2">
           <p class="Statistic-title">未完课程</p>
-          <p class="Statistic-num">2</p>
+          <p class="Statistic-num">{{showDateInfor==1?YesterdayData.part1.class.uncomplete:SevendaysData.part1.class.uncomplete}}</p>
         </div>
         <div class="Statistic Statistic3">
           <p class="Statistic-title">课程比例</p>
-          <p class="Statistic-num">60.0%</p>
+          <p class="Statistic-num">{{showDateInfor==1?YesterdayData.part1.class.proportion:SevendaysData.part1.class.proportion}}</p>
         </div>
       </div>
       <div class="Statistics">
         <div class="Statistic Statistic1">
           <p class="Statistic-title">看完例题</p>
-          <p class="Statistic-num">3</p>
+          <p class="Statistic-num">{{showDateInfor==1?YesterdayData.part1.example.complete:SevendaysData.part1.example.complete}}</p>
         </div>
         <div class="Statistic Statistic2">
           <p class="Statistic-title">未完例题</p>
-          <p class="Statistic-num">2</p>
+          <p class="Statistic-num">{{showDateInfor==1?YesterdayData.part1.example.uncomplete:SevendaysData.part1.example.uncomplete}}</p>
         </div>
         <div class="Statistic Statistic3">
           <p class="Statistic-title">例题比例</p>
-          <p class="Statistic-num">80.0%</p>
+          <p class="Statistic-num">{{showDateInfor==1?YesterdayData.part1.example.proportion:SevendaysData.part1.example.proportion}}</p>
         </div>
       </div>
       <div class="Statistics">
         <div class="Statistic Statistic1">
           <p class="Statistic-title">正确题数</p>
-          <p class="Statistic-num">3</p>
+          <p class="Statistic-num">{{showDateInfor==1?YesterdayData.part1.accuracy.correct:SevendaysData.part1.accuracy.correct}}</p>
         </div>
         <div class="Statistic Statistic2">
           <p class="Statistic-title">错误题数</p>
-          <p class="Statistic-num">2</p>
+          <p class="Statistic-num">{{showDateInfor==1?YesterdayData.part1.accuracy.error:SevendaysData.part1.accuracy.error}}</p>
         </div>
         <div class="Statistic Statistic3">
           <p class="Statistic-title">正确比例</p>
-          <p class="Statistic-num">85.0%</p>
+          <p class="Statistic-num">{{showDateInfor==1?YesterdayData.part1.accuracy.proportion:SevendaysData.part1.accuracy.proportion}}</p>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
       <div class="Statistical-chart">
         <div class="h-box clearFix">
           <h3 class="flowLeft">观看课程</h3>
-          <span class="flowRight">2018/04/23</span>
+          <span class="flowRight">{{showDateInfor==1?YesterdayData.part2.time:SevendaysData.part2.time}}</span>
         </div>
         <div class="chart-box">
           <div id="myChart1" :style="{height: '240px',width: '92%',margin: '0 auto'}"></div>
@@ -71,7 +71,7 @@
       <div class="Statistical-chart">
         <div class="h-box clearFix">
           <h3 class="flowLeft">例题解析</h3>
-          <span class="flowRight">2018/04/23</span>
+          <span class="flowRight">{{showDateInfor==1?YesterdayData.part2.time:SevendaysData.part2.time}}</span>
         </div>
         <div class="chart-box">
           <div id="myChart2" :style="{height: '240px',width: '92%',margin: '0 auto'}"></div>
@@ -80,7 +80,7 @@
       <div class="Statistical-chart">
         <div class="h-box clearFix">
           <h3 class="flowLeft">习题练习</h3>
-          <span class="flowRight">2018/04/23</span>
+          <span class="flowRight">{{showDateInfor==1?YesterdayData.part2.time:SevendaysData.part2.time}}</span>
         </div>
         <div class="chart-box">
           <div id="myChart3" :style="{height: '240px',width: '92%',margin: '0 auto'}"></div>
@@ -103,11 +103,106 @@ export default {
   components: {
     DetailsOfLearningHeader
   },
+  data() {
+    return {
+      showDateInfor: 1,
+      drawLineData: {},
+      YesterdayData: {
+        part1: {
+          class: {
+            proportion: '65%',
+            complete: '13',
+            uncomplete: '7'
+          },
+          example: {
+            proportion: '75%',
+            complete: '15',
+            uncomplete: '5'
+          },
+          accuracy: {
+            proportion: '87%',
+            correct: 13,
+            error: 2
+          }
+        },
+        part2: {
+          time: '2019/01/09',
+          datas: {
+            class: {
+              max: 100,
+              TotalDuration: [80, 60, 52, 38, 72],
+              ViewingDuration: [80, 42, 37, 27, 60]
+            },
+            example: {
+              max: 40,
+              TotalDuration: [19, 10, 22, 28, 12],
+              ViewingDuration: [11, 20, 18, 2, 18]
+            },
+            accuracy: {
+              max: 30,
+              correct: [9, 15, 10, 4, 21],
+              error: [21, 15, 20, 26, 9]
+            }
+          }
+        }
+      },
+      SevendaysData: {
+        part1: {
+          class: {
+            proportion: '86%',
+            complete: '120',
+            uncomplete: '20'
+          },
+          example: {
+            proportion: '93%',
+            complete: '130',
+            uncomplete: '10'
+          },
+          accuracy: {
+            proportion: '76%',
+            correct: 80,
+            error: 25
+          }
+        },
+        part2: {
+          time: '2019/01/02-2019/01/09',
+          datas: {
+            class: {
+              max: 700,
+              TotalDuration: [500, 600, 500, 700, 600],
+              ViewingDuration: [480, 442, 337, 427, 460]
+            },
+            example: {
+              max: 80,
+              TotalDuration: [60, 76, 55, 70, 42],
+              ViewingDuration: [20, 4, 25, 10, 38]
+            },
+            accuracy: {
+              max: 300,
+              correct: [100, 150, 202, 250, 210],
+              error: [110, 60, 8, 40, 90]
+            }
+          }
+        }
+      }
+    }
+  },
   mounted() {
-    this.drawLine();
+    this.drawLineData = this.YesterdayData;
+    this.drawLine(this.drawLineData);
   },
   methods: {
-    drawLine() {
+    checkedDate(val) {
+      this.showDateInfor = val;
+      if (this.showDateInfor == 1) {
+        this.drawLineData = this.YesterdayData;
+      } else if (this.showDateInfor == 7) {
+        this.drawLineData = this.SevendaysData;
+      }
+      this.drawLine(this.drawLineData);
+    },
+    drawLine(val) {
+      let data = val.part2.datas;
       // 基于准备好的dom，初始化echarts实例
       let myChart1 = echarts.init(document.getElementById('myChart1'));
       let myChart2 = echarts.init(document.getElementById('myChart2'));
@@ -203,7 +298,7 @@ export default {
           }
         },
         yAxis: {
-          max: 100,
+          max: data.class.max,
           type: 'value',
           axisLine: {
             lineStyle: {
@@ -238,7 +333,7 @@ export default {
         series: [
           {
             name: '课程总时长',
-            data: [80, 60, 52, 38, 72],
+            data: data.class.TotalDuration,
             type: 'bar',
             itemStyle: {
               normal: {
@@ -260,7 +355,7 @@ export default {
             type: 'bar',
             barGap: 0,
             barCategoryGap: 22.5,
-            data: [80, 42, 37, 27, 60],
+            data: data.class.ViewingDuration,
             itemStyle: {
               normal: {
                 color: '#e5e5e5'
@@ -360,7 +455,7 @@ export default {
           }
         },
         yAxis: {
-          max: 30,
+          max: data.example.max,
           type: 'value',
           axisLine: {
             lineStyle: {
@@ -395,7 +490,7 @@ export default {
         series: [
           {
             name: '例题总时长',
-            data: [19, 10, 22, 28, 12],
+            data: data.example.TotalDuration,
             type: 'bar',
             itemStyle: {
               normal: {
@@ -417,7 +512,7 @@ export default {
             type: 'bar',
             barGap: 0,
             barCategoryGap: 22.5,
-            data: [11, 20, 18, 2, 18],
+            data: data.example.ViewingDuration,
             itemStyle: {
               normal: {
                 color: '#e5e5e5'
@@ -517,7 +612,7 @@ export default {
           }
         },
         yAxis: {
-          max: 30,
+          max: data.accuracy.max,
           type: 'value',
           axisLine: {
             lineStyle: {
@@ -552,7 +647,7 @@ export default {
         series: [
           {
             name: '正确题数',
-            data: [9, 15, 10, 4, 21],
+            data: data.accuracy.correct,
             type: 'bar',
             itemStyle: {
               normal: {
@@ -574,7 +669,7 @@ export default {
             type: 'bar',
             barGap: 0,
             barCategoryGap: 22.5,
-            data: [21, 15, 20, 26, 9],
+            data: data.accuracy.error,
             itemStyle: {
               normal: {
                 color: '#e5e5e5'
@@ -630,6 +725,7 @@ export default {
         border: 1px solid #eeeeee;
         font-size: px2rem(26px);
         color: #999999;
+        background-color: #eeeeee;
       }
       .nav-left{
         border-right: none;
@@ -638,8 +734,8 @@ export default {
       .nav-right{
         border-radius: 0 px2rem(4px) px2rem(4px) 0;
       }
-      .noneCheck{
-        background-color: #eeeeee;
+      .Check{
+        background-color: #ffffff;
       }
     }
     .Details-Statistics-box{

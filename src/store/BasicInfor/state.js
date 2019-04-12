@@ -4,7 +4,7 @@ const state = {
   phoneNumber: sessionStorage.getItem('phoneNumber') || '',
   password: sessionStorage.getItem('password') || '',
   checkGender: '',
-  checkIdentity: '',
+  checkIdentity: sessionStorage.getItem('checkIdentity') || '',
   school: '',
   class: '',
   region: '',

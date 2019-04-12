@@ -158,6 +158,14 @@ let routes = [
     }
   },
   {
+    path: '/rollBag',
+    name: 'rollBag',
+    component: (resolve) => require(['../view/my/RollBag'], resolve),
+    meta: {
+      title: '卷包'
+    }
+  },
+  {
     path: '/bindingChildrenAccounts',
     name: 'bindingChildrenAccounts',
     component: (resolve) => require(['../view/my/BindingChildrenAccounts'], resolve),

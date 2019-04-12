@@ -141,7 +141,8 @@ export default {
         userName: this.personalData.name,
         photo: this.personalData.photoSrc,
         checkGender: this.personalData.checkGender,
-        region: this.personalData.adress
+        region: this.personalData.adress,
+        school: this.personalData.school
       };
       this.savePersonalData(data);
       this.$router.push({path: '/my'})

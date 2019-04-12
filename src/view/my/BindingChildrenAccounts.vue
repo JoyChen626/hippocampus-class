@@ -3,14 +3,30 @@
     <binding-children-accounts-hearder></binding-children-accounts-hearder>
     <div class="input-box">
       <div class="box">
-        <input type="text" class="phoneNumber" placeholder="请输入手机号">
+        <input
+          type="tel"
+          class="phoneNumber"
+          maxlength="11"
+          v-model="phoneNumber"
+          onkeyup="value=value.replace(/[^0-9]/g,'')"
+          onpaste="value=value.replace(/[^0-9]/g,'')"
+          oncontextmenu="value=value.replace(/[^0-9]/g,'')"
+          placeholder="请输入手机号">
       </div>
       <div class="box clearFix">
-        <input type="text" class="idCode" placeholder="请输入验证码">
-        <span class="flowRight">获取验证码</span>
+        <input
+          type="text"
+          class="idCode"
+          v-model="verificationCode"
+          onkeyup="value=value.replace(/[^0-9]/g,'')"
+          onpaste="value=value.replace(/[^0-9]/g,'')"
+          oncontextmenu="value=value.replace(/[^0-9]/g,'')"
+          maxlength="6"
+          placeholder="请输入验证码">
+        <span class="flowRight"  @click="getverificationCode(1)">{{conutTimeText1}}</span>
       </div>
     </div>
-    <div class="btn">
+    <div class="btn" @click="bind">
       <span>绑定</span>
     </div>
     <div class="notes">
@@ -28,11 +44,11 @@
           <p>快来绑定账号查看孩子的学习情况吧~</p>
         </div>
         <div class="list-box" v-if="bindLists.length">
-          <div class="list clearFix" v-for="item in bindLists" :key="item.id">
+          <div class="list clearFix" v-for="(item,index) in bindLists" :key="index">
             <i></i>
             <span class="time">{{item.time}}</span>
             <span>{{item.phone}}</span>
-            <span class="btn-span flowRight" @click="toUntying">解绑</span>
+            <span class="btn-span flowRight" @click="toUntying(index,item.phone)">解绑</span>
           </div>
         </div>
       </div>
@@ -41,12 +57,12 @@
       <h2 class="untying-title">解绑该账户</h2>
       <div class="untying-input-box">
         <input type="text" placeholder="请输入验证码">
-        <span>获取验证码</span>
+        <span @click="getverificationCode(2)">{{conutTimeText2}}</span>
       </div>
       <div class="untying-btn-box">
         <span class="btn1" @click="cancelUntying">取消</span>
         <span class="line"></span>
-        <span class="btn2">确定</span>
+        <span class="btn2" @click="trueUntying(unbindNum)">确定</span>
       </div>
     </mt-popup>
   </div>
@@ -54,6 +70,7 @@
 
 <script>
 import BindingChildrenAccountsHearder from '../../components/common/header/Header'
+import {MessageBox} from 'mint-ui';
 export default {
   name: 'BindingChildrenAccounts',
   components: {
@@ -61,19 +78,95 @@ export default {
   },
   data() {
     return {
-      bindLists: [
-        {'id': '001', 'time': '2018/07/23', 'phone': '13737478927'},
-        {'id': '002', 'time': '2018/08/04', 'phone': '18610758275'}
-      ],
-      regionVisible: false
+      bindLists: [],
+      regionVisible: false,
+      isclickedFlag: false,
+      timer: null,
+      canClick: true,
+      conutTime: 60,
+      conutTimeText1: '获取验证码',
+      conutTimeText2: '获取验证码',
+      phoneNumber: '',
+      verificationCode: '',
+      thisNum: '',
+      unbindNum: '',
+      unbindPhone: ''
     }
   },
   methods: {
-    toUntying() {
+    bind() {
+      if (this.phoneNumber == '') {
+        MessageBox.alert('手机号码不能为空').then(action => {});
+        return false;
+      } else if (this.isclickedFlag == false) {
+        MessageBox.alert('请获取验证码').then(action => {});
+        return false;
+      } else if (this.verificationCode == '') {
+        MessageBox.alert('验证码不能为空').then(action => {});
+        return false;
+      }
+      let date = new Date();
+      let time = date.getFullYear() + '/' + (((date.getMonth() + 1) > 10) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 10) ? date.getDate() : ('0' + date.getDate()))
+      this.bindLists.push({'time': time, 'phone': this.phoneNumber})
+      this.phoneNumber = '';
+      this.verificationCode = '';
+      this.conutTimeText1 = '获取验证码';
+      this.clearInfor();
+    },
+    toUntying(val, phone) {
+      this.unbindNum = val;
+      this.unbindPhone = phone;
       this.regionVisible = true;
+      this.clearInfor();
+      this.conutTimeText1 = '获取验证码';
     },
     cancelUntying() {
       this.regionVisible = false;
+      this.clearInfor();
+      this.conutTimeText2 = '获取验证码';
+    },
+    trueUntying() {
+      this.regionVisible = false;
+      this.bindLists.splice(this.unbindNum, 1);
+    },
+    clearInfor() {
+      this.isclickedFlag = false;
+      clearInterval(this.timer);
+      this.canClick = true;
+      this.conutTime = 60;
+    },
+    getverificationCode(ref) {
+      if (ref == 1) {
+        this.thisNum = this.phoneNumber;
+      } else if (ref == 2) {
+        this.thisNum = this.unbindPhone;
+      }
+      this.isclickedFlag = true;
+      if (!this.canClick) {
+        return
+      }
+      this.canClick = false;
+      let conutTimeText = this.conutTime + 's后重试';
+      if (ref == 1) {
+        this.conutTimeText1 = conutTimeText;
+      } else if (ref == 2) {
+        this.conutTimeText2 = conutTimeText;
+      }
+      this.timer = setInterval(() => {
+        this.conutTime--;
+        conutTimeText = this.conutTime + 's后重试';
+        if (this.conutTime <= 0) {
+          clearInterval(this.timer);
+          this.canClick = true;
+          conutTimeText = '重新获取';
+          this.conutTime = 60
+        }
+        if (ref == 1) {
+          this.conutTimeText1 = conutTimeText;
+        } else if (ref == 2) {
+          this.conutTimeText2 = conutTimeText;
+        }
+      }, 1000);
     }
   }
 }
